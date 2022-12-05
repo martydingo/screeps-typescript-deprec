@@ -34,6 +34,7 @@ screeps.json
 *~
 
 # Editor folders
+.vscode
 .cache
 .project
 .settings
