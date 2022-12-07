@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-underscore-dangle */
+import _ from "lodash";
 import { SourceMapConsumer } from "source-map";
 
 export class errorMapper {
   // Cache consumer
-  private static _consumer?: SourceMapConsumer;
+  private static _consumer?: any;
 
-  public static get consumer(): SourceMapConsumer {
+  public static get consumer(): SourceMapConsumer | undefined {
     if (this._consumer == null) {
       this._consumer = new SourceMapConsumer(require("main.js.map"));
     }
-
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._consumer;
   }
 
@@ -37,21 +40,23 @@ export class errorMapper {
 
     while ((match = re.exec(stack))) {
       if (match[2] === "main") {
-        const pos = this.consumer.originalPositionFor({
-          column: parseInt(match[4], 10),
-          line: parseInt(match[3], 10)
-        });
+        if (this.consumer) {
+          const pos = this.consumer.originalPositionFor({
+            column: parseInt(match[4], 10),
+            line: parseInt(match[3], 10)
+          });
 
-        if (pos.line != null) {
-          if (pos.name) {
-            outStack += `\n    at ${pos.name} (${pos.source}:${pos.line}:${pos.column})`;
-          } else {
-            if (match[1]) {
-              // no original source file name known - use file name from given trace
-              outStack += `\n    at ${match[1]} (${pos.source}:${pos.line}:${pos.column})`;
+          if (pos.line != null) {
+            if (pos.name) {
+              outStack += `\n    at ${pos.name} (${pos.source}:${pos.line}:${pos.column})`;
             } else {
-              // no original source file name known or in given trace - omit name
-              outStack += `\n    at ${pos.source}:${pos.line}:${pos.column}`;
+              if (match[1]) {
+                // no original source file name known - use file name from given trace
+                outStack += `\n    at ${match[1]} (${pos.source}:${pos.line}:${pos.column})`;
+              } else {
+                // no original source file name known or in given trace - omit name
+                outStack += `\n    at ${pos.source}:${pos.line}:${pos.column}`;
+              }
             }
           }
         } else {
