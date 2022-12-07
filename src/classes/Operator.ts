@@ -4,6 +4,7 @@ import { CreepOperator } from "./Operator/CreepOperator";
 import { QueueOperator } from "./Operator/QueueOperator";
 import { SourceOperator } from "./Operator/SourceOperator";
 import { SpawnOperator } from "./Operator/SpawnOperator";
+import { TowerOperator } from "./Operator/TowerOperator";
 
 export class Operator {
   public constructor() {
@@ -13,6 +14,7 @@ export class Operator {
     this.runControllerOperator();
     this.runSourceOperator();
     this.runSpawnOperator();
+    this.runTowerOperator();
     this.runQueueOperator();
     this.runCreepOperator();
     this.runConstructionSiteOperator();
@@ -28,6 +30,9 @@ export class Operator {
   }
   private runSpawnOperator() {
     new SpawnOperator();
+  }
+  private runTowerOperator() {
+    new TowerOperator();
   }
   private runCreepOperator() {
     new CreepOperator();

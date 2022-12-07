@@ -1,17 +1,17 @@
 import { Log } from "classes/Log";
 import { base64 } from "common/utilities/base64";
 
-export class FeedSpawnJob {
-  public JobParameters: FeedSpawnJobParameters;
-  public constructor(JobParameters: FeedSpawnJobParameters, count = 1) {
+export class FeedTowerJob {
+  public JobParameters: FeedTowerJobParameters;
+  public constructor(JobParameters: FeedTowerJobParameters, count = 1) {
     this.JobParameters = JobParameters;
     if (count === 1) {
-      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.spawnId}-1`);
+      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.towerId}-1`);
       this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
-        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.spawnId}-${iterations}`);
+        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.towerId}-${iterations}`);
         this.createJob(UUID, iterations);
         iterations++;
       }
@@ -20,18 +20,18 @@ export class FeedSpawnJob {
   private createJob(UUID: string, index: number) {
     if (!Memory.queues.jobs[UUID]) {
       Log.Informational(
-        `Creating "FeedSpawnJob" for Spawn ID "${this.JobParameters.spawnId} with the UUID of ${UUID}"`
+        `Creating "FeedTowerJob" for Tower ID "${this.JobParameters.towerId} with the UUID of ${UUID}"`
       );
       Memory.queues.jobs[UUID] = {
         jobParameters: {
           uuid: UUID,
           status: "fetchingResource",
-          spawnId: this.JobParameters.spawnId,
+          towerId: this.JobParameters.towerId,
           room: this.JobParameters.room,
-          jobType: "feedSpawn"
+          jobType: "feedTower"
         },
         index,
-        jobType: "feedSpawn",
+        jobType: "feedTower",
         timeAdded: Game.time
       };
     }

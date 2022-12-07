@@ -1,5 +1,6 @@
 import { BuildConstructionSiteCreep } from "classes/Creep/BuildConstructionSiteCreep";
 import { FeedSpawnCreep } from "classes/Creep/FeedSpawnCreep";
+import { FeedTowerCreep } from "classes/Creep/FeedTowerCreep";
 import { SourceMinerCreep } from "classes/Creep/SourceMinerCreep";
 import { UpgradeControllerCreep } from "classes/Creep/UpgradeControllerCreep";
 
@@ -10,6 +11,7 @@ export class CreepOperator {
   private runCreeps() {
     this.runFeedSpawnCreeps();
     this.runSourceMinerCreeps();
+    this.runFeedTowerCreeps();
     this.runUpgradeControllerCreeps();
     this.runBuildConstructionSiteCreeps();
   }
@@ -25,6 +27,13 @@ export class CreepOperator {
       .filter(([, Creep]) => Creep.memory.jobType === "feedSpawn")
       .forEach(([, creep]) => {
         new FeedSpawnCreep(creep);
+      });
+  }
+  private runFeedTowerCreeps() {
+    Object.entries(Game.creeps)
+      .filter(([, Creep]) => Creep.memory.jobType === "feedTower")
+      .forEach(([, creep]) => {
+        new FeedTowerCreep(creep);
       });
   }
   private runUpgradeControllerCreeps() {

@@ -11,8 +11,8 @@ export class ExtensionMonitor {
   private monitorExtensions(extension: StructureExtension): void {
     if (extension.room.memory.monitoring.structures.extensions) {
       extension.room.memory.monitoring.structures.extensions[extension.id] = {
-        energy: extension.store[RESOURCE_ENERGY],
-        capacity: extension.store.getCapacity(RESOURCE_ENERGY)
+        energyAvailable: extension.store[RESOURCE_ENERGY],
+        energyCapacity: extension.store.getCapacity(RESOURCE_ENERGY)
       };
     }
   }

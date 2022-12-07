@@ -1,16 +1,16 @@
 export {};
 declare global {
   interface StorageMonitorMemory {
-    [storageId: Id<StructureStorage>]: {
-      resources: {
-        [resourceName: string]: {
-          amount: number;
-        };
+    id: Id<StructureStorage>;
+    resources: {
+      [resourceName: string]: {
+        resourceAmount: number;
+        resourceCapacity: number;
       };
-      structure: {
-        hits: number;
-        hitsMax: number;
-      };
+    };
+    structure: {
+      hits: number;
+      hitsMax: number;
     };
   }
 }

@@ -8,28 +8,21 @@ export class BuildConstructionSiteCreep extends BaseCreep {
   private runCreep(creep: Creep) {
     this.checkIfFull(creep, RESOURCE_ENERGY);
     if (creep.memory.status === "fetchingResource") {
-      const droppedResourceArray: Resource<ResourceConstant>[] = [];
-      Object.entries(creep.room.memory.monitoring.droppedResources)
-        .filter(DroppedResource => DroppedResource[1].resourceType === RESOURCE_ENERGY)
-        .forEach(([droppedResourceId]) => {
-          const droppedResource = Game.getObjectById(droppedResourceId as Id<Resource<ResourceConstant>>);
-          if (droppedResource) {
-            droppedResourceArray.push(droppedResource);
-          }
-        });
-      if (droppedResourceArray.length > 0) {
-        const closestDroppedEnergy = creep.pos.findClosestByPath(droppedResourceArray);
-        if (closestDroppedEnergy) {
-          this.pickupResource(creep, closestDroppedEnergy);
-        }
-      }
+      this.fetchSource(creep);
     } else {
       if (creep.memory.status === "working") {
-        const constructionSiteId = creep.memory.constructionSiteId;
-        if (constructionSiteId) {
-          const constructionSite: ConstructionSite | null = Game.getObjectById(constructionSiteId);
-          if (constructionSite) {
-            const buildResult = this.buildConstructionSite(creep, constructionSite);
+        const constructionSites = Object.entries(creep.room.memory.monitoring.constructionSites).sort(
+          ([, constructionSiteMemoryA], [, constructionSiteMemoryB]) =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-unsafe-return
+            constructionSiteMemoryA.progress + constructionSiteMemoryB.progress
+        );
+        if (constructionSites[0]) {
+          const constructionSiteId = constructionSites[0][0] as Id<ConstructionSite>;
+          if (constructionSiteId) {
+            const constructionSite: ConstructionSite | null = Game.getObjectById(constructionSiteId);
+            if (constructionSite) {
+              const buildResult = this.buildConstructionSite(creep, constructionSite);
+            }
           }
         }
       }

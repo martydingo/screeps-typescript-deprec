@@ -10,6 +10,7 @@ declare global {
       jobParameters:
         | MineSourceJobParameters
         | FeedSpawnJobParameters
+        | FeedTowerJobParameters
         | UpgradeControllerJobParameters
         | BuildConstructionSiteJobParameters;
     };

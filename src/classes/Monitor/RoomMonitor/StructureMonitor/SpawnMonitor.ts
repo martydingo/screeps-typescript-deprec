@@ -17,7 +17,7 @@ export class SpawnMonitor {
     if (spawn.room.memory.monitoring.structures.spawns) {
       spawn.room.memory.monitoring.structures.spawns[spawn.name] = {
         energy: {
-          energy: spawn.store[RESOURCE_ENERGY],
+          energyAvailable: spawn.store[RESOURCE_ENERGY],
           energyCapacity: spawn.store.getCapacity(RESOURCE_ENERGY)
         },
         structure: {

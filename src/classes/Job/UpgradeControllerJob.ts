@@ -7,17 +7,17 @@ export class UpgradeControllerJob {
     this.JobParameters = JobParameters;
     if (count === 1) {
       const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.controllerId}-1`);
-      this.createJob(UUID);
+      this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
         const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.controllerId}-${iterations}`);
-        this.createJob(UUID);
+        this.createJob(UUID, iterations);
         iterations++;
       }
     }
   }
-  private createJob(UUID: string) {
+  private createJob(UUID: string, index: number) {
     if (!Memory.queues.jobs[UUID]) {
       Log.Informational(
         `Creating "UpgradeControllerJob" for Source ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
@@ -30,9 +30,18 @@ export class UpgradeControllerJob {
           room: this.JobParameters.room,
           jobType: "upgradeController"
         },
+        index,
         jobType: "upgradeController",
         timeAdded: Game.time
       };
+    }
+  }
+  private deleteJob(UUID: string) {
+    if (!Memory.queues.jobs[UUID]) {
+      Log.Informational(
+        `Deleting "UpgradeControllerJob" for Source ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
+      );
+      delete Memory.queues.jobs[UUID];
     }
   }
 }

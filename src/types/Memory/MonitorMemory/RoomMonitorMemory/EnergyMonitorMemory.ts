@@ -1,9 +1,13 @@
 export {};
 declare global {
   interface EnergyMonitorMemory {
-    [monitorTime: number]: {
-      energyAvailable: number;
-      energyCapacity: number;
+    history: {
+      [monitorTime: number]: {
+        energyAvailable: number;
+        energyCapacity: number;
+      };
+      minmumAvailableEnergy?: number;
+      maximumAvailableEnergy?: number;
     };
   }
 }

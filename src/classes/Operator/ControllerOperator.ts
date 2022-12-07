@@ -8,8 +8,9 @@ export class ControllerOperator {
   private operateController() {
     if (Memory.rooms) {
       for (const roomName in Memory.rooms) {
-        if (Memory.rooms[roomName].monitoring.controller) {
-          const controllerId: Id<StructureController> | undefined = Memory.rooms[roomName].monitoring.controller?.id;
+        if (Memory.rooms[roomName].monitoring.structures.controller) {
+          const controllerId: Id<StructureController> | undefined =
+            Memory.rooms[roomName].monitoring.structures.controller?.id;
           if (controllerId) {
             const controller: StructureController | null = Game.getObjectById(controllerId);
             if (controller) {

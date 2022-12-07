@@ -1,6 +1,7 @@
 export const creepNumbers: { [key: string]: number } = {
   mineSource: 1,
-  feedSpawn: 2,
+  feedSpawn: 1,
+  feedTower: 1,
   buildConstructionSite: 1,
-  upgradeController: 6
+  upgradeController: 1
 };

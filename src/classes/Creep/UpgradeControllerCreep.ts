@@ -8,21 +8,7 @@ export class UpgradeControllerCreep extends BaseCreep {
   private runCreep(creep: Creep) {
     this.checkIfFull(creep, RESOURCE_ENERGY);
     if (creep.memory.status === "fetchingResource") {
-      const droppedResourceArray: Resource<ResourceConstant>[] = [];
-      Object.entries(creep.room.memory.monitoring.droppedResources)
-        .filter(DroppedResource => DroppedResource[1].resourceType === RESOURCE_ENERGY)
-        .forEach(([droppedResourceId]) => {
-          const droppedResource = Game.getObjectById(droppedResourceId as Id<Resource<ResourceConstant>>);
-          if (droppedResource) {
-            droppedResourceArray.push(droppedResource);
-          }
-        });
-      if (droppedResourceArray.length > 0) {
-        const closestDroppedEnergy = creep.pos.findClosestByPath(droppedResourceArray);
-        if (closestDroppedEnergy) {
-          this.pickupResource(creep, closestDroppedEnergy);
-        }
-      }
+      this.fetchSource(creep);
     } else {
       if (creep.memory.status === "working") {
         const controllerId = creep.memory.controllerId;

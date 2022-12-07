@@ -3,8 +3,8 @@ declare global {
   interface TowerMonitorMemory {
     [towerId: Id<StructureTower>]: {
       energy: {
-        amount: number;
-        capacity: number;
+        energyAvailable: number;
+        energyCapacity: number;
       };
       structure: {
         hits: number;

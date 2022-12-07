@@ -4,7 +4,7 @@ declare global {
   export interface SpawnMonitorMemory {
     [spawnName: string]: {
       energy: {
-        energy: number;
+        energyAvailable: number;
         energyCapacity: number;
       };
       structure: {

@@ -26,7 +26,6 @@ export class ControllerMonitor {
         };
       }
       room.memory.monitoring.structures.controller = controllerMonitorDictionary;
-      Memory.monitoring[room.name].structures.controller = controllerMonitorDictionary;
     }
   }
 }

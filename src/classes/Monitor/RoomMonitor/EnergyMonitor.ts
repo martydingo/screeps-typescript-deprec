@@ -10,11 +10,13 @@ export class EnergyMonitor {
   }
   private initializeEnergyMonitorMemory(): void {
     if (!this.room.memory.monitoring.energy) {
-      this.room.memory.monitoring.energy = {};
+      this.room.memory.monitoring.energy = {
+        history: {}
+      };
     }
   }
   private monitorEnergy(): void {
-    this.room.memory.monitoring.energy[Game.time] = {
+    this.room.memory.monitoring.energy.history[Game.time] = {
       energyAvailable: this.room.energyAvailable,
       energyCapacity: this.room.energyCapacityAvailable
     };
@@ -26,7 +28,7 @@ export class EnergyMonitor {
       const monitorTimeUnknown = monitorTimeString as unknown;
       const monitorTime = monitorTimeUnknown as number;
       if (monitorTime < curTime - deleteThreshold) {
-        delete this.room.memory.monitoring.energy[monitorTime];
+        delete this.room.memory.monitoring.energy.history[monitorTime];
       }
     });
   }

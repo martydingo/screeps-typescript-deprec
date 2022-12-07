@@ -7,17 +7,17 @@ export class MineSourceJob {
     this.JobParameters = JobParameters;
     if (count === 1) {
       const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.sourceId}-1`);
-      this.createJob(UUID);
+      this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
         const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.sourceId}-${iterations}`);
-        this.createJob(UUID);
+        this.createJob(UUID, iterations);
         iterations++;
       }
     }
   }
-  private createJob(UUID: string) {
+  private createJob(UUID: string, index: number) {
     if (!Memory.queues.jobs[UUID]) {
       Log.Informational(
         `Creating "MineSourceJob" for Source ID: "${this.JobParameters.sourceId}" with the UUID "${UUID}"`
@@ -30,6 +30,7 @@ export class MineSourceJob {
           room: this.JobParameters.room,
           jobType: "mineSource"
         },
+        index,
         jobType: "mineSource",
         timeAdded: Game.time
       };

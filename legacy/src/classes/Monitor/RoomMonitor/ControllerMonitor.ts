@@ -29,8 +29,7 @@ export class ControllerMonitor {
           safeMode: false
         };
       }
-      Memory.rooms[roomName].monitoring.controller = controllerMonitorDictionary;
-      Memory.monitoring[roomName].controller = controllerMonitorDictionary;
+      Memory.rooms[roomName].monitoring.structures.controller = controllerMonitorDictionary;
     }
   }
 }

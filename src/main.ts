@@ -2,7 +2,6 @@ import { Log } from "classes/Log";
 import { Monitor } from "classes/Monitor";
 import { Operator } from "classes/Operator";
 import { Queue } from "classes/Queue";
-import { fetchBodyParts } from "common/fetchBodyParts";
 import { errorMapper } from "common/utilities/errorMapper";
 import { garbageCollect } from "common/utilities/garbageCollect";
 
@@ -10,9 +9,8 @@ import { garbageCollect } from "common/utilities/garbageCollect";
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
 export const loop = errorMapper.wrapLoop(() => {
   Log.Informational(`Current game tick is ${Game.time}`);
+  garbageCollect.creeps();
   new Monitor();
   new Queue();
   new Operator();
-  garbageCollect.creeps();
-  console.log(fetchBodyParts("mineSource", "W8N3"));
 });

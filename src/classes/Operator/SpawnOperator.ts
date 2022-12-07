@@ -15,13 +15,13 @@ export class SpawnOperator {
         creepPriority(Game.rooms[spawnJobB.room])[spawnJobB.creepType]
       );
     });
-    Object.entries(Memory.monitoring).forEach(([roomName, roomMonitoring]) => {
+    Object.entries(Memory.rooms).forEach(([roomName, roomMonitoring]) => {
       const roomSpawnQueue = Object.entries(Memory.queues.spawn).filter(
         SpawnQueueEntry => SpawnQueueEntry[1].room === roomName
       );
-      roomSpawnQueue.forEach(([roomSpawnQueueUUID, roomSpawnQueueEntry]) => {
-        Memory.monitoring[roomName].spawnQueue[roomSpawnQueueUUID] = roomSpawnQueueEntry;
-      });
+      // roomSpawnQueue.forEach(([roomSpawnQueueUUID, roomSpawnQueueEntry]) => {
+      //   Memory.monitoring[roomName].spawnQueue[roomSpawnQueueUUID] = roomSpawnQueueEntry;
+      // });
     });
     if (sortedSpawnQueue.length > 0) {
       let spawn: StructureSpawn | null = null;

@@ -3,9 +3,11 @@ declare global {
   interface JobQueueMemory {
     [UUID: string]: {
       uuid?: string;
+      index: number;
       jobParameters:
         | MineSourceJobParameters
         | FeedSpawnJobParameters
+        | FeedTowerJobParameters
         | UpgradeControllerJobParameters
         | BuildConstructionSiteJobParameters;
       jobType: string;

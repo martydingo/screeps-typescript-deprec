@@ -16,12 +16,62 @@ export class BaseCreep {
     }
   }
   public pickupResource(creep: Creep, origin: Resource<ResourceConstant>): ScreepsReturnCode {
-    const depositResult = creep.pickup(origin);
-    if (depositResult === ERR_NOT_IN_RANGE) {
+    const pickupResult = creep.pickup(origin);
+    if (pickupResult === ERR_NOT_IN_RANGE) {
       const moveResult = this.moveCreep(creep, origin.pos);
       return moveResult;
-    } else return depositResult;
+    } else return pickupResult;
   }
+  public withdrawResource(
+    creep: Creep,
+    origin: StructureStorage | StructureContainer,
+    resource: ResourceConstant
+  ): ScreepsReturnCode {
+    const withdrawResult = creep.withdraw(origin, resource);
+    if (withdrawResult === ERR_NOT_IN_RANGE) {
+      const moveResult = this.moveCreep(creep, origin.pos);
+      return moveResult;
+    } else return withdrawResult;
+  }
+  public fetchSource(creep: Creep): void {
+    let useStorage = false;
+    if (creep.room.memory.monitoring.structures.storage) {
+      if (creep.room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY]) {
+        if (
+          creep.room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY].resourceAmount >=
+          creep.store.getFreeCapacity(RESOURCE_ENERGY)
+        ) {
+          useStorage = true;
+        }
+      }
+    }
+    if (useStorage === true) {
+      if (creep.room.memory.monitoring.structures.storage) {
+        const storageId = creep.room.memory.monitoring.structures.storage.id;
+        const storage = Game.getObjectById(storageId);
+        if (storage) {
+          this.withdrawResource(creep, storage, RESOURCE_ENERGY);
+        }
+      }
+    } else {
+      const droppedResourceArray: Resource<ResourceConstant>[] = [];
+      Object.entries(creep.room.memory.monitoring.droppedResources)
+        .filter(DroppedResource => DroppedResource[1].resourceType === RESOURCE_ENERGY)
+        .forEach(([droppedResourceId]) => {
+          const droppedResource = Game.getObjectById(droppedResourceId as Id<Resource<ResourceConstant>>);
+          if (droppedResource) {
+            droppedResourceArray.push(droppedResource);
+          }
+        });
+      if (droppedResourceArray.length > 0) {
+        const closestDroppedEnergy = creep.pos.findClosestByPath(droppedResourceArray);
+        if (closestDroppedEnergy) {
+          this.pickupResource(creep, closestDroppedEnergy);
+        }
+      }
+    }
+  }
+
   public depositResource(
     creep: Creep,
     destination: Structure<StructureConstant> | AnyCreep,
