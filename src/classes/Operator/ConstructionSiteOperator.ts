@@ -5,9 +5,16 @@ export class ConstructionSiteOperator {
   public constructor() {
     this.operateConstructionSites();
   }
-  private cleanConstructionSiteJobs(roomName: string) {
-    Object.entries(Memory.rooms[roomName].monitoring.constructionSites).forEach(
-      ([constructionSiteIdString]) => {
+  private cleanConstructionSites(roomName: string) {
+    if (
+      Object.entries(Memory.rooms[roomName].monitoring.constructionSites)
+        .length === 0
+    ) {
+      this.deleteConstructionSiteJob(roomName);
+    } else {
+      Object.entries(
+        Memory.rooms[roomName].monitoring.constructionSites
+      ).forEach(([constructionSiteIdString]) => {
         const constructionSiteId =
           constructionSiteIdString as Id<ConstructionSite>;
         const constructionSite = Game.getObjectById(constructionSiteId);
@@ -16,8 +23,8 @@ export class ConstructionSiteOperator {
             constructionSiteId
           ];
         }
-      }
-    );
+      });
+    }
   }
   private createConstructionSiteJob(roomName: string) {
     const JobParameters: BuildConstructionSiteJobParameters = {
@@ -28,10 +35,18 @@ export class ConstructionSiteOperator {
     const count: number = creepNumbers[JobParameters.jobType];
     new BuildConstructionSiteJob(JobParameters, count);
   }
+  private deleteConstructionSiteJob(roomName: string) {
+    const JobParameters: BuildConstructionSiteJobParameters = {
+      status: "fetchingResource",
+      room: roomName,
+      jobType: "buildConstructionSite",
+    };
+    new BuildConstructionSiteJob(JobParameters, 0);
+  }
   private operateConstructionSites() {
     if (Memory.rooms) {
       for (const roomName in Memory.rooms) {
-        this.cleanConstructionSiteJobs(roomName);
+        this.cleanConstructionSites(roomName);
         const constructionSitesInRoom = Object.entries(
           Memory.rooms[roomName].monitoring.constructionSites
         );

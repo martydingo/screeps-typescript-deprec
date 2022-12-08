@@ -51,7 +51,7 @@ export class FeedTowerJob {
     }
   }
   private deleteJob(UUID: string) {
-    if (!Memory.queues.jobs[UUID]) {
+    if (Memory.queues.jobs[UUID]) {
       Log.Informational(
         `Deleting "FeedTowerJob" for Tower ID "${this.JobParameters.towerId} with the UUID of ${UUID}"`
       );

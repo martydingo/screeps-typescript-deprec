@@ -53,7 +53,7 @@ export class BuildConstructionSiteJob {
     }
   }
   private deleteJob(UUID: string) {
-    if (!Memory.queues.jobs[UUID]) {
+    if (Memory.queues.jobs[UUID]) {
       Log.Informational(
         `Deleting "BuildConstructionSiteJob" for room: "${this.JobParameters.room}" with the UUID "${UUID}"`
       );

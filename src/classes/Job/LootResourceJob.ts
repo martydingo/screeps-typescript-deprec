@@ -1,9 +1,9 @@
 import { Log } from "classes/Log";
 import { base64 } from "common/utilities/base64";
 
-export class UpgradeControllerJob {
-  public JobParameters: UpgradeControllerJobParameters;
-  public constructor(JobParameters: UpgradeControllerJobParameters, count = 1) {
+export class LootResourceJob {
+  public JobParameters: LootResourceJobParameters;
+  public constructor(JobParameters: LootResourceJobParameters, count = 1) {
     this.JobParameters = JobParameters;
     Object.entries(Memory.queues.jobs)
       .filter(
@@ -17,14 +17,14 @@ export class UpgradeControllerJob {
       });
     if (count === 1) {
       const UUID = base64.encode(
-        `${this.JobParameters.jobType}-${this.JobParameters.controllerId}-1`
+        `${this.JobParameters.jobType}-${this.JobParameters.room}-1`
       );
       this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
         const UUID = base64.encode(
-          `${this.JobParameters.jobType}-${this.JobParameters.controllerId}-${iterations}`
+          `${this.JobParameters.jobType}-${this.JobParameters.room}-${iterations}`
         );
         this.createJob(UUID, iterations);
         iterations++;
@@ -34,18 +34,17 @@ export class UpgradeControllerJob {
   private createJob(UUID: string, index: number) {
     if (!Memory.queues.jobs[UUID]) {
       Log.Informational(
-        `Creating "UpgradeControllerJob" for Controller ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
+        `Creating "LootResourceJob" for Tower ID "${this.JobParameters.room} with the UUID of ${UUID}"`
       );
       Memory.queues.jobs[UUID] = {
         jobParameters: {
           uuid: UUID,
           status: "fetchingResource",
-          controllerId: this.JobParameters.controllerId,
           room: this.JobParameters.room,
-          jobType: "upgradeController",
+          jobType: "lootResource",
         },
         index,
-        jobType: "upgradeController",
+        jobType: "lootResource",
         timeAdded: Game.time,
       };
     }
@@ -53,7 +52,7 @@ export class UpgradeControllerJob {
   private deleteJob(UUID: string) {
     if (Memory.queues.jobs[UUID]) {
       Log.Informational(
-        `Deleting "UpgradeControllerJob" for Controller ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
+        `Deleting "LootResourceJob" for Tower ID "${this.JobParameters.room} with the UUID of ${UUID}"`
       );
       delete Memory.queues.jobs[UUID];
     }

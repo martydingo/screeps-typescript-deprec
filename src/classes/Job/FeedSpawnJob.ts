@@ -8,7 +8,8 @@ export class FeedSpawnJob {
     Object.entries(Memory.queues.jobs)
       .filter(
         ([, jobMemory]) =>
-          jobMemory.jobParameters.jobType === this.JobParameters.jobType
+          jobMemory.jobParameters.jobType === this.JobParameters.jobType &&
+          jobMemory.jobParameters.spawnId === this.JobParameters.spawnId
       )
       .forEach(([jobUUID, jobMemory]) => {
         if (jobMemory.index > count) {
@@ -51,7 +52,7 @@ export class FeedSpawnJob {
     }
   }
   private deleteJob(UUID: string) {
-    if (!Memory.queues.jobs[UUID]) {
+    if (Memory.queues.jobs[UUID]) {
       Log.Informational(
         `Deleting "FeedSpawnJob" for Spawn ID "${this.JobParameters.spawnId} with the UUID of ${UUID}"`
       );

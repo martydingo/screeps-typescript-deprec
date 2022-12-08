@@ -8,7 +8,8 @@ declare global {
       | "feedSpawn"
       | "feedTower"
       | "upgradeController"
-      | "buildConstructionSite";
+      | "buildConstructionSite"
+      | "lootResource";
     sourceId?: Id<Source>;
     towerId?: Id<StructureTower>;
     controllerId?: Id<StructureController>;

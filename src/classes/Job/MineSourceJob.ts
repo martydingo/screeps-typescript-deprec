@@ -8,7 +8,8 @@ export class MineSourceJob {
     Object.entries(Memory.queues.jobs)
       .filter(
         ([, jobMemory]) =>
-          jobMemory.jobParameters.jobType === this.JobParameters.jobType
+          jobMemory.jobParameters.jobType === this.JobParameters.jobType &&
+          jobMemory.jobParameters.sourceId === this.JobParameters.sourceId
       )
       .forEach(([jobUUID, jobMemory]) => {
         if (jobMemory.index > count) {

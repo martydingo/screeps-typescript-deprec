@@ -12,7 +12,8 @@ declare global {
         | FeedSpawnJobParameters
         | FeedTowerJobParameters
         | UpgradeControllerJobParameters
-        | BuildConstructionSiteJobParameters;
+        | BuildConstructionSiteJobParameters
+        | LootResourceJobParameters;
     };
   }
 }

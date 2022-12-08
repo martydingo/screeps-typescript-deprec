@@ -4,4 +4,5 @@ export const creepNumbers: { [key: string]: number } = {
   feedTower: 1,
   buildConstructionSite: 1,
   upgradeController: 1,
+  lootResource: 1,
 };

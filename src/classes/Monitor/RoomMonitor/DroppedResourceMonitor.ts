@@ -1,3 +1,6 @@
+import { LootResourceJob } from "classes/Job/LootResourceJob";
+import { creepNumbers } from "configuration/creeps/creepNumbers";
+
 export class DroppedResourceMonitor {
   private room: Room;
   public constructor(room: Room) {
@@ -6,6 +9,7 @@ export class DroppedResourceMonitor {
       this.initializeDroppedResourceMonitorMemory();
       this.monitorDroppedResources();
       this.cleanDroppedResources();
+      this.createLootResourceJob();
     }
   }
   private initializeDroppedResourceMonitorMemory() {
@@ -35,5 +39,20 @@ export class DroppedResourceMonitor {
         }
       }
     );
+  }
+  private createLootResourceJob(): void {
+    if (this.room.memory.monitoring.structures.storage) {
+      if (
+        Object.entries(this.room.memory.monitoring.droppedResources).length > 0
+      ) {
+        const jobParameters: LootResourceJobParameters = {
+          room: this.room.name,
+          status: "fetchingResource",
+          jobType: "lootResource",
+        };
+        const count: number = creepNumbers[jobParameters.jobType];
+        new LootResourceJob(jobParameters, count);
+      }
+    }
   }
 }

@@ -9,7 +9,8 @@ declare global {
         | FeedSpawnJobParameters
         | FeedTowerJobParameters
         | UpgradeControllerJobParameters
-        | BuildConstructionSiteJobParameters;
+        | BuildConstructionSiteJobParameters
+        | LootResourceJobParameters;
       jobType: string;
       timeAdded: Game["time"];
       assignedCreep?: Id<Creep>;
