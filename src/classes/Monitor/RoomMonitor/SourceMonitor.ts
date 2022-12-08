@@ -12,7 +12,7 @@ export class SourceMonitor {
       const roomName: string = source.pos.roomName;
       Memory.rooms[roomName].monitoring.sources[this.sourceId] = {
         totalEnergy: source.energyCapacity,
-        remainingEnergy: source.energy
+        remainingEnergy: source.energy,
       };
     }
   }

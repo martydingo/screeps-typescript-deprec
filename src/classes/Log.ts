@@ -7,7 +7,7 @@ export class Log {
     Warning: '<font color="#eeaa00">',
     Notice: '<font color="#eeff00">',
     Informational: '<font color="#aaaaaa">',
-    Debug: '<font color="#666666">'
+    Debug: '<font color="#666666">',
   };
   public static Emergency(msg: string): void {
     console.log(Log.LogColor.Emergency + msg);

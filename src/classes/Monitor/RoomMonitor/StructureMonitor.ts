@@ -14,7 +14,7 @@ export class StructureMonitor {
   private monitorStructures(): void {
     if (this.room) {
       // console.log(JSON.stringify(this.room.find(FIND_STRUCTURES)));
-      this.room.find(FIND_STRUCTURES).forEach(Structure => {
+      this.room.find(FIND_STRUCTURES).forEach((Structure) => {
         if (Structure.structureType === STRUCTURE_CONTROLLER) {
           new ControllerMonitor(Structure);
         } else if (Structure.structureType === STRUCTURE_SPAWN) {
@@ -31,7 +31,7 @@ export class StructureMonitor {
           new RoadMonitor(Structure);
         } else {
           this.room.memory.monitoring.structures.other[Structure.id] = {
-            structureType: Structure.structureType
+            structureType: Structure.structureType,
           };
         }
       });

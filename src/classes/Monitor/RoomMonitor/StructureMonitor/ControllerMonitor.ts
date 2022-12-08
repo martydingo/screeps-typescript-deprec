@@ -14,7 +14,7 @@ export class ControllerMonitor {
           nextLevel: controller.progressTotal,
           downgrade: controller.ticksToDowngrade,
           safeMode: true,
-          safeModeCooldown: controller.safeMode
+          safeModeCooldown: controller.safeMode,
         };
       } else {
         controllerMonitorDictionary = {
@@ -22,10 +22,11 @@ export class ControllerMonitor {
           progress: controller.progress,
           nextLevel: controller.progressTotal,
           downgrade: controller.ticksToDowngrade,
-          safeMode: false
+          safeMode: false,
         };
       }
-      room.memory.monitoring.structures.controller = controllerMonitorDictionary;
+      room.memory.monitoring.structures.controller =
+        controllerMonitorDictionary;
     }
   }
 }

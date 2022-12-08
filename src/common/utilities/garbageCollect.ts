@@ -8,5 +8,5 @@ export const garbageCollect = {
         delete Memory.creeps[name];
       }
     }
-  }
+  },
 };

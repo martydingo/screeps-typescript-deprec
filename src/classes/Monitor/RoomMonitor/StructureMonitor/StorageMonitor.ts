@@ -9,15 +9,17 @@ export class StorageMonitor {
         resources: {},
         structure: {
           hits: storage.hits,
-          hitsMax: storage.hitsMax
-        }
+          hitsMax: storage.hitsMax,
+        },
       };
       Object.entries(storage.store).forEach(([resourceTypeString]) => {
         const resourceType = resourceTypeString as ResourceConstant;
         if (storage.room.memory.monitoring.structures.storage) {
-          storage.room.memory.monitoring.structures.storage.resources[resourceTypeString] = {
+          storage.room.memory.monitoring.structures.storage.resources[
+            resourceTypeString
+          ] = {
             resourceAmount: storage.store[resourceType],
-            resourceCapacity: storage.store.getCapacity(resourceType)
+            resourceCapacity: storage.store.getCapacity(resourceType),
           };
         }
       });

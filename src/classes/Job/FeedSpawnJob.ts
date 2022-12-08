@@ -6,19 +6,26 @@ export class FeedSpawnJob {
   public constructor(JobParameters: FeedSpawnJobParameters, count = 1) {
     this.JobParameters = JobParameters;
     Object.entries(Memory.queues.jobs)
-      .filter(([, jobMemory]) => jobMemory.jobParameters.jobType === this.JobParameters.jobType)
+      .filter(
+        ([, jobMemory]) =>
+          jobMemory.jobParameters.jobType === this.JobParameters.jobType
+      )
       .forEach(([jobUUID, jobMemory]) => {
         if (jobMemory.index > count) {
           this.deleteJob(jobUUID);
         }
       });
     if (count === 1) {
-      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.spawnId}-1`);
+      const UUID = base64.encode(
+        `${this.JobParameters.jobType}-${this.JobParameters.spawnId}-1`
+      );
       this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
-        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.spawnId}-${iterations}`);
+        const UUID = base64.encode(
+          `${this.JobParameters.jobType}-${this.JobParameters.spawnId}-${iterations}`
+        );
         this.createJob(UUID, iterations);
         iterations++;
       }
@@ -35,11 +42,11 @@ export class FeedSpawnJob {
           status: "fetchingResource",
           spawnId: this.JobParameters.spawnId,
           room: this.JobParameters.room,
-          jobType: "feedSpawn"
+          jobType: "feedSpawn",
         },
         index,
         jobType: "feedSpawn",
-        timeAdded: Game.time
+        timeAdded: Game.time,
       };
     }
   }

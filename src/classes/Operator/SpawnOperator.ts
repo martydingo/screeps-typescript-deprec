@@ -9,15 +9,17 @@ export class SpawnOperator {
     this.operateSpawns();
   }
   private operateSpawns() {
-    const sortedSpawnQueue = Object.entries(Memory.queues.spawn).sort(([, spawnJobA], [, spawnJobB]) => {
-      return (
-        creepPriority(Game.rooms[spawnJobA.room])[spawnJobA.creepType] -
-        creepPriority(Game.rooms[spawnJobB.room])[spawnJobB.creepType]
-      );
-    });
+    const sortedSpawnQueue = Object.entries(Memory.queues.spawn).sort(
+      ([, spawnJobA], [, spawnJobB]) => {
+        return (
+          creepPriority(Game.rooms[spawnJobA.room])[spawnJobA.creepType] -
+          creepPriority(Game.rooms[spawnJobB.room])[spawnJobB.creepType]
+        );
+      }
+    );
     Object.entries(Memory.rooms).forEach(([roomName, roomMonitoring]) => {
       const roomSpawnQueue = Object.entries(Memory.queues.spawn).filter(
-        SpawnQueueEntry => SpawnQueueEntry[1].room === roomName
+        (SpawnQueueEntry) => SpawnQueueEntry[1].room === roomName
       );
       // roomSpawnQueue.forEach(([roomSpawnQueueUUID, roomSpawnQueueEntry]) => {
       //   Memory.monitoring[roomName].spawnQueue[roomSpawnQueueUUID] = roomSpawnQueueEntry;
@@ -27,17 +29,24 @@ export class SpawnOperator {
       let spawn: StructureSpawn | null = null;
       const nextSpawnJob = sortedSpawnQueue[0][1];
       const spawnObjects = Object.entries(Game.spawns).filter(
-        ([, Spawn]) => Spawn.spawning === null && Spawn.pos.roomName === nextSpawnJob.room
+        ([, Spawn]) =>
+          Spawn.spawning === null && Spawn.pos.roomName === nextSpawnJob.room
       );
       if (spawnObjects.length > 0) {
         spawn = spawnObjects[0][1];
       }
 
       if (spawn) {
-        const spawnResult: ScreepsReturnCode = spawn.spawnCreep(nextSpawnJob.bodyParts, nextSpawnJob.name, {
-          memory: nextSpawnJob.jobParameters
-        });
-        Log.Debug(`Spawn result for ${nextSpawnJob.creepType} in room ${nextSpawnJob.room}: ${spawnResult}`);
+        const spawnResult: ScreepsReturnCode = spawn.spawnCreep(
+          nextSpawnJob.bodyParts,
+          nextSpawnJob.name,
+          {
+            memory: nextSpawnJob.jobParameters,
+          }
+        );
+        Log.Debug(
+          `Spawn result for ${nextSpawnJob.creepType} in room ${nextSpawnJob.room}: ${spawnResult}`
+        );
       }
     }
   }
@@ -47,7 +56,7 @@ export class SpawnOperator {
         status: "fetchingResource",
         spawnId: spawn.id,
         room: spawn.pos.roomName,
-        jobType: "feedSpawn"
+        jobType: "feedSpawn",
       };
       const count: number = creepNumbers[JobParameters.jobType];
       new FeedSpawnJob(JobParameters, count);

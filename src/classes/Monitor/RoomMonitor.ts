@@ -31,27 +31,27 @@ export class RoomMonitor {
           constructionSites: {},
           droppedResources: {},
           energy: {
-            history: {}
+            history: {},
           },
           hostiles: {},
           sources: {},
           structures: {
-            other: {}
-          }
-        }
+            other: {},
+          },
+        },
       };
     } else if (!Memory.rooms[this.roomName].monitoring) {
       Memory.rooms[this.roomName].monitoring = {
         constructionSites: {},
         droppedResources: {},
         energy: {
-          history: {}
+          history: {},
         },
         hostiles: {},
         sources: {},
         structures: {
-          other: {}
-        }
+          other: {},
+        },
       };
     }
   }
@@ -75,7 +75,7 @@ export class RoomMonitor {
     new HostileMonitor(this.room);
   }
   private runSourceMonitors(): void {
-    this.room.find(FIND_SOURCES).forEach(source => {
+    this.room.find(FIND_SOURCES).forEach((source) => {
       new SourceMonitor(source.id);
     });
   }

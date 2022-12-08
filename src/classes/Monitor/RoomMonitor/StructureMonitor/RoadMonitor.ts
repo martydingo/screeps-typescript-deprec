@@ -13,8 +13,8 @@ export class RoadMonitor {
       road.room.memory.monitoring.structures.roads[road.id] = {
         structure: {
           hits: road.hits,
-          hitsMax: road.hitsMax
-        }
+          hitsMax: road.hitsMax,
+        },
       };
     }
   }

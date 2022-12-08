@@ -34,7 +34,8 @@ export class errorMapper {
    * @returns {string} The source-mapped stack trace
    */
   public static sourceMappedStackTrace(error: Error | string): string {
-    const stack: string = error instanceof Error ? (error.stack as string) : error;
+    const stack: string =
+      error instanceof Error ? (error.stack as string) : error;
     if (Object.prototype.hasOwnProperty.call(this.cache, stack)) {
       return this.cache[stack];
     }
@@ -48,7 +49,7 @@ export class errorMapper {
         if (this.consumer) {
           const pos = this.consumer.originalPositionFor({
             column: parseInt(match[4], 10),
-            line: parseInt(match[3], 10)
+            line: parseInt(match[3], 10),
           });
 
           if (pos.line != null) {
@@ -86,9 +87,17 @@ export class errorMapper {
         if (e instanceof Error) {
           if ("sim" in Game.rooms) {
             const message = `Source maps don't work in the simulator - displaying original error`;
-            console.log(`<span style='color:red'>${message}<br>${_.escape(e.stack)}</span>`);
+            console.log(
+              `<span style='color:red'>${message}<br>${_.escape(
+                e.stack
+              )}</span>`
+            );
           } else {
-            console.log(`<span style='color:red'>${_.escape(this.sourceMappedStackTrace(e))}</span>`);
+            console.log(
+              `<span style='color:red'>${_.escape(
+                this.sourceMappedStackTrace(e)
+              )}</span>`
+            );
           }
         } else {
           // can't handle it

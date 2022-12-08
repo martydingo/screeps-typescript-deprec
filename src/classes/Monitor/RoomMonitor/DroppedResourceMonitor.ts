@@ -15,19 +15,25 @@ export class DroppedResourceMonitor {
   }
   private monitorDroppedResources(): void {
     const droppedResources = this.room.find(FIND_DROPPED_RESOURCES);
-    droppedResources.forEach(droppedResource => {
+    droppedResources.forEach((droppedResource) => {
       this.room.memory.monitoring.droppedResources[droppedResource.id] = {
         resourceType: droppedResource.resourceType,
-        amount: droppedResource.amount
+        amount: droppedResource.amount,
       };
     });
   }
   private cleanDroppedResources(): void {
-    Object.entries(this.room.memory.monitoring.droppedResources).forEach(([droppedResourceId]) => {
-      const droppedResource = Game.getObjectById(droppedResourceId as Id<Resource<ResourceConstant>>);
-      if (!droppedResource) {
-        delete this.room.memory.monitoring.droppedResources[droppedResourceId as Id<Resource<ResourceConstant>>];
+    Object.entries(this.room.memory.monitoring.droppedResources).forEach(
+      ([droppedResourceId]) => {
+        const droppedResource = Game.getObjectById(
+          droppedResourceId as Id<Resource<ResourceConstant>>
+        );
+        if (!droppedResource) {
+          delete this.room.memory.monitoring.droppedResources[
+            droppedResourceId as Id<Resource<ResourceConstant>>
+          ];
+        }
       }
-    });
+    );
   }
 }

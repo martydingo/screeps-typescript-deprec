@@ -13,10 +13,10 @@ export class ConstructionSiteMonitor {
   }
   private monitorConstructionSites(): void {
     const constructionSites = this.room.find(FIND_MY_CONSTRUCTION_SITES);
-    constructionSites.forEach(constructionSite => {
+    constructionSites.forEach((constructionSite) => {
       this.room.memory.monitoring.constructionSites[constructionSite.id] = {
         progress: constructionSite.progress,
-        total: constructionSite.progressTotal
+        total: constructionSite.progressTotal,
       };
     });
   }

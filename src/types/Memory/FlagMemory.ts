@@ -1,6 +1,5 @@
-export {}
+export {};
 
 declare global {
-    export interface FlagMemory {
-    }
+  export interface FlagMemory {}
 }

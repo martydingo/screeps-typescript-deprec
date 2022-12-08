@@ -12,7 +12,8 @@ export function fetchHostileCreep(room: Room): Creep | undefined {
   } else {
     if (cachedHostiles.length > 1) {
       const cachedHostilesThatHeal = cachedHostiles.filter(
-        ([, cachedHostileMemory]) => cachedHostileMemory.bodyParts.includes(HEAL) === true
+        ([, cachedHostileMemory]) =>
+          cachedHostileMemory.bodyParts.includes(HEAL) === true
       );
       if (cachedHostilesThatHeal.length === 1) {
         const hostileIdUnknown = cachedHostilesThatHeal[0][0] as unknown;
@@ -25,9 +26,11 @@ export function fetchHostileCreep(room: Room): Creep | undefined {
         if (cachedHostilesThatHeal.length > 1) {
           const cachedHostilesThatHealLowestHP = cachedHostiles.sort(
             ([, cachedHostileMemoryA], [, cachedHostileMemoryB]) =>
-              cachedHostileMemoryA.health.hits - cachedHostileMemoryB.health.hits
+              cachedHostileMemoryA.health.hits -
+              cachedHostileMemoryB.health.hits
           );
-          const hostileIdUnknown = cachedHostilesThatHealLowestHP[0][0] as unknown;
+          const hostileIdUnknown =
+            cachedHostilesThatHealLowestHP[0][0] as unknown;
           const hostileId = hostileIdUnknown as Id<Creep>;
           const hostile = Game.getObjectById(hostileId);
           if (hostile) {

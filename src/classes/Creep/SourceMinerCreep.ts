@@ -16,7 +16,9 @@ export class SourceMinerCreep extends BaseCreep {
       } else if (creep.memory.status === "working") {
         let dropEnergy = false;
         if (creep.room.memory.monitoring.structures.storage) {
-          const storage = Game.getObjectById(creep.room.memory.monitoring.structures.storage.id);
+          const storage = Game.getObjectById(
+            creep.room.memory.monitoring.structures.storage.id
+          );
           if (storage) {
             dropEnergy = false;
           } else dropEnergy = true;
@@ -24,7 +26,9 @@ export class SourceMinerCreep extends BaseCreep {
         if (dropEnergy === true) {
           creep.drop(RESOURCE_ENERGY);
         } else if (creep.room.memory.monitoring.structures.storage) {
-          const storage = Game.getObjectById(creep.room.memory.monitoring.structures.storage.id);
+          const storage = Game.getObjectById(
+            creep.room.memory.monitoring.structures.storage.id
+          );
           if (storage) {
             this.depositResource(creep, storage, RESOURCE_ENERGY);
           }

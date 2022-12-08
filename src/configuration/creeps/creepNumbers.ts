@@ -3,5 +3,5 @@ export const creepNumbers: { [key: string]: number } = {
   feedSpawn: 1,
   feedTower: 1,
   buildConstructionSite: 1,
-  upgradeController: 1
+  upgradeController: 1,
 };

@@ -12,14 +12,15 @@ export class ControllerOperator {
           const controllerId: Id<StructureController> | undefined =
             Memory.rooms[roomName].monitoring.structures.controller?.id;
           if (controllerId) {
-            const controller: StructureController | null = Game.getObjectById(controllerId);
+            const controller: StructureController | null =
+              Game.getObjectById(controllerId);
             if (controller) {
               if (controller.my) {
                 const JobParameters: UpgradeControllerJobParameters = {
                   status: "fetchingResource",
                   controllerId: controller.id,
                   room: controller.pos.roomName,
-                  jobType: "upgradeController"
+                  jobType: "upgradeController",
                 };
                 const count: number = creepNumbers[JobParameters.jobType];
                 new UpgradeControllerJob(JobParameters, count);

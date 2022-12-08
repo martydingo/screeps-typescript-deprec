@@ -15,7 +15,10 @@ export class BaseCreep {
       return harvestResult;
     }
   }
-  public pickupResource(creep: Creep, origin: Resource<ResourceConstant>): ScreepsReturnCode {
+  public pickupResource(
+    creep: Creep,
+    origin: Resource<ResourceConstant>
+  ): ScreepsReturnCode {
     const pickupResult = creep.pickup(origin);
     if (pickupResult === ERR_NOT_IN_RANGE) {
       const moveResult = this.moveCreep(creep, origin.pos);
@@ -36,10 +39,15 @@ export class BaseCreep {
   public fetchSource(creep: Creep): void {
     let useStorage = false;
     if (creep.room.memory.monitoring.structures.storage) {
-      if (creep.room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY]) {
+      if (
+        creep.room.memory.monitoring.structures.storage.resources[
+          RESOURCE_ENERGY
+        ]
+      ) {
         if (
-          creep.room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY].resourceAmount >=
-          creep.store.getFreeCapacity(RESOURCE_ENERGY)
+          creep.room.memory.monitoring.structures.storage.resources[
+            RESOURCE_ENERGY
+          ].resourceAmount >= creep.store.getFreeCapacity(RESOURCE_ENERGY)
         ) {
           useStorage = true;
         }
@@ -56,15 +64,21 @@ export class BaseCreep {
     } else {
       const droppedResourceArray: Resource<ResourceConstant>[] = [];
       Object.entries(creep.room.memory.monitoring.droppedResources)
-        .filter(DroppedResource => DroppedResource[1].resourceType === RESOURCE_ENERGY)
+        .filter(
+          (DroppedResource) =>
+            DroppedResource[1].resourceType === RESOURCE_ENERGY
+        )
         .forEach(([droppedResourceId]) => {
-          const droppedResource = Game.getObjectById(droppedResourceId as Id<Resource<ResourceConstant>>);
+          const droppedResource = Game.getObjectById(
+            droppedResourceId as Id<Resource<ResourceConstant>>
+          );
           if (droppedResource) {
             droppedResourceArray.push(droppedResource);
           }
         });
       if (droppedResourceArray.length > 0) {
-        const closestDroppedEnergy = creep.pos.findClosestByPath(droppedResourceArray);
+        const closestDroppedEnergy =
+          creep.pos.findClosestByPath(droppedResourceArray);
         if (closestDroppedEnergy) {
           this.pickupResource(creep, closestDroppedEnergy);
         }

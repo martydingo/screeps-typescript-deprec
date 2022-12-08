@@ -19,7 +19,7 @@ export class JobQueueOperator {
             creepType: Memory.queues.jobs[jobUUID].jobType,
             bodyParts: desiredBodyParts,
             room: Memory.queues.jobs[jobUUID].jobParameters.room,
-            jobParameters: Memory.queues.jobs[jobUUID].jobParameters
+            jobParameters: Memory.queues.jobs[jobUUID].jobParameters,
           };
         }
       } else {

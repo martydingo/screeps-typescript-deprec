@@ -5,7 +5,8 @@ export class TowerOperator {
   public constructor() {
     if (Memory.rooms) {
       Object.entries(Memory.rooms).forEach(([roomName]) => {
-        const towersInMemory = Memory.rooms[roomName].monitoring.structures.towers;
+        const towersInMemory =
+          Memory.rooms[roomName].monitoring.structures.towers;
         if (towersInMemory) {
           Object.entries(towersInMemory).forEach(([towerIdString]) => {
             const towerId = towerIdString as Id<StructureTower>;
@@ -24,7 +25,7 @@ export class TowerOperator {
       status: "fetchingResource",
       towerId: tower.id,
       room: tower.room.name,
-      jobType: "feedTower"
+      jobType: "feedTower",
     };
     new FeedTowerJob(jobParameters);
   }
@@ -45,11 +46,13 @@ export class TowerOperator {
     return false;
   }
   private repairRoads(tower: StructureTower): void {
-    const roadsInMemory: RoadMonitorMemory | undefined = tower.room.memory.monitoring.structures.roads;
+    const roadsInMemory: RoadMonitorMemory | undefined =
+      tower.room.memory.monitoring.structures.roads;
     if (roadsInMemory) {
       const roadToRepairObject = Object.entries(roadsInMemory).sort(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        ([, cachedRoadA], [, cachedRoadB]) => cachedRoadA.structure.hits - cachedRoadB.structure.hits
+        ([, cachedRoadA], [, cachedRoadB]) =>
+          cachedRoadA.structure.hits - cachedRoadB.structure.hits
       );
       if (roadToRepairObject[0]) {
         const roadToRepairIdUnknown = roadToRepairObject[0][0] as unknown;

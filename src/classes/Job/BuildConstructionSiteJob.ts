@@ -3,22 +3,32 @@ import { base64 } from "common/utilities/base64";
 
 export class BuildConstructionSiteJob {
   public JobParameters: BuildConstructionSiteJobParameters;
-  public constructor(JobParameters: BuildConstructionSiteJobParameters, count = 1) {
+  public constructor(
+    JobParameters: BuildConstructionSiteJobParameters,
+    count = 1
+  ) {
     this.JobParameters = JobParameters;
     Object.entries(Memory.queues.jobs)
-      .filter(([, jobMemory]) => jobMemory.jobParameters.jobType === this.JobParameters.jobType)
+      .filter(
+        ([, jobMemory]) =>
+          jobMemory.jobParameters.jobType === this.JobParameters.jobType
+      )
       .forEach(([jobUUID, jobMemory]) => {
         if (jobMemory.index > count) {
           this.deleteJob(jobUUID);
         }
       });
     if (count === 1) {
-      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.room}-1`);
+      const UUID = base64.encode(
+        `${this.JobParameters.jobType}-${this.JobParameters.room}-1`
+      );
       this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
-        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.room}-${iterations}`);
+        const UUID = base64.encode(
+          `${this.JobParameters.jobType}-${this.JobParameters.room}-${iterations}`
+        );
         this.createJob(UUID, iterations);
         iterations++;
       }
@@ -34,11 +44,11 @@ export class BuildConstructionSiteJob {
           uuid: UUID,
           status: "fetchingResource",
           room: this.JobParameters.room,
-          jobType: "buildConstructionSite"
+          jobType: "buildConstructionSite",
         },
         index,
         jobType: "buildConstructionSite",
-        timeAdded: Game.time
+        timeAdded: Game.time,
       };
     }
   }

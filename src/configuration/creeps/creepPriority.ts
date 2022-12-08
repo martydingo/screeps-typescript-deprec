@@ -4,14 +4,19 @@ export function creepPriority(room: Room): { [creepType: string]: number } {
     feedSpawn: 2,
     feedTower: 3,
     upgradeController: 4,
-    buildConstructionSite: 5
+    buildConstructionSite: 5,
   };
   if (room) {
     let storageContainsEnergy = false;
     let roomContainsDroppedEnergy = false;
     if (room.memory.monitoring.structures.storage) {
-      if (room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY]) {
-        if (room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY].resourceAmount > 0) {
+      if (
+        room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY]
+      ) {
+        if (
+          room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY]
+            .resourceAmount > 0
+        ) {
           storageContainsEnergy = true;
         }
       }
@@ -25,7 +30,7 @@ export function creepPriority(room: Room): { [creepType: string]: number } {
         mineSource: priority.feedSpawn,
         feedTower: priority.feedTower,
         upgradeController: priority.upgradeController,
-        buildConstructionSite: priority.buildConstructionSite
+        buildConstructionSite: priority.buildConstructionSite,
       };
     }
   }

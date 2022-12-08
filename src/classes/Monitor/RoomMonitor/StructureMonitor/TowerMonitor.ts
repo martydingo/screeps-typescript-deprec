@@ -14,12 +14,12 @@ export class TowerMonitor {
         tower.room.memory.monitoring.structures.towers[tower.id] = {
           energy: {
             energyAvailable: tower.store[RESOURCE_ENERGY],
-            energyCapacity: tower.store.getCapacity(RESOURCE_ENERGY)
+            energyCapacity: tower.store.getCapacity(RESOURCE_ENERGY),
           },
           structure: {
             hits: tower.hits,
-            hitsMax: tower.hitsMax
-          }
+            hitsMax: tower.hitsMax,
+          },
         };
       }
     }
