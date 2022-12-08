@@ -18,7 +18,7 @@ module.exports = {
     output: {
       file: "dist/main.js",
       format: "cjs",
-      sourcemap: true
+      sourcemap: false
     },
 
     plugins: [

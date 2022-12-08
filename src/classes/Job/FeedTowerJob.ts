@@ -5,6 +5,13 @@ export class FeedTowerJob {
   public JobParameters: FeedTowerJobParameters;
   public constructor(JobParameters: FeedTowerJobParameters, count = 1) {
     this.JobParameters = JobParameters;
+    Object.entries(Memory.queues.jobs)
+      .filter(([, jobMemory]) => jobMemory.jobParameters.jobType === this.JobParameters.jobType)
+      .forEach(([jobUUID, jobMemory]) => {
+        if (jobMemory.index > count) {
+          this.deleteJob(jobUUID);
+        }
+      });
     if (count === 1) {
       const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.towerId}-1`);
       this.createJob(UUID, 1);
@@ -34,6 +41,14 @@ export class FeedTowerJob {
         jobType: "feedTower",
         timeAdded: Game.time
       };
+    }
+  }
+  private deleteJob(UUID: string) {
+    if (!Memory.queues.jobs[UUID]) {
+      Log.Informational(
+        `Deleting "FeedTowerJob" for Tower ID "${this.JobParameters.towerId} with the UUID of ${UUID}"`
+      );
+      delete Memory.queues.jobs[UUID];
     }
   }
 }

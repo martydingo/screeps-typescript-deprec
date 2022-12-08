@@ -5,13 +5,20 @@ export function fetchBodyParts(creepType: string, roomName: string): BodyPartCon
   if (Game.rooms[roomName]) {
     const room: Room = Game.rooms[roomName];
     const energyAvailableHistory: number[] = [];
-    Object.entries(Memory.rooms[roomName].monitoring.energy).forEach(([monitorTimeString]) => {
+    Object.entries(Memory.rooms[roomName].monitoring.energy.history).forEach(([monitorTimeString]) => {
       const monitorTimeUnknown = monitorTimeString as unknown;
       const monitorTime = monitorTimeUnknown as number;
       energyAvailableHistory.push(Memory.rooms[roomName].monitoring.energy.history[monitorTime].energyAvailable);
     });
     const highestObservedEnergyAvailable = Math.max(...energyAvailableHistory);
-    // const lowestObservedEnergyAvailable = Math.min(...energyAvailableHistory);
+    const lowestObservedEnergyAvailable = Math.min(...energyAvailableHistory);
+    const avgObservedEnergyAvailable =
+      energyAvailableHistory.reduce((runningTotal, currentNumber) => {
+        return runningTotal + currentNumber;
+      }, 0) / energyAvailableHistory.length;
+    Memory.rooms[roomName].monitoring.energy.maximumEnergyAvailable = highestObservedEnergyAvailable;
+    Memory.rooms[roomName].monitoring.energy.minimumEnergyAvailable = lowestObservedEnergyAvailable;
+    Memory.rooms[roomName].monitoring.energy.averageEnergyAvailable = avgObservedEnergyAvailable;
     // Log.Debug(`Lowest observed energy in room ${roomName}: ${lowestObservedEnergyAvailable}`);
     // Log.Debug(`Highest observed energy in room ${roomName}: ${highestObservedEnergyAvailable}`);
 

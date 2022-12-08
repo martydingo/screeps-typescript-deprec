@@ -24,7 +24,7 @@ export class EnergyMonitor {
   private cleanHistory(): void {
     const deleteThreshold = 100;
     const curTime = Game.time;
-    Object.entries(this.room.memory.monitoring.energy).forEach(([monitorTimeString]) => {
+    Object.entries(this.room.memory.monitoring.energy.history).forEach(([monitorTimeString]) => {
       const monitorTimeUnknown = monitorTimeString as unknown;
       const monitorTime = monitorTimeUnknown as number;
       if (monitorTime < curTime - deleteThreshold) {

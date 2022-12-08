@@ -1,16 +1,22 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-underscore-dangle */
+import { RawSourceMap, SourceMapConsumer } from "source-map";
 import _ from "lodash";
-import { SourceMapConsumer } from "source-map";
+const rawSourceMap: RawSourceMap = require("main.js.map");
 
 export class errorMapper {
   // Cache consumer
   private static _consumer?: any;
 
-  public static get consumer(): SourceMapConsumer | undefined {
-    if (this._consumer == null) {
-      this._consumer = new SourceMapConsumer(require("main.js.map"));
-    }
+  public static get consumer() {
+    this._consumer = new SourceMapConsumer(rawSourceMap);
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._consumer;
   }
@@ -33,7 +39,6 @@ export class errorMapper {
       return this.cache[stack];
     }
 
-    // eslint-disable-next-line no-useless-escape
     const re = /^\s+at\s+(.+?\s+)?\(?([0-z._\-\\\/]+):(\d+):(\d+)\)?$/gm;
     let match: RegExpExecArray | null;
     let outStack = error.toString();

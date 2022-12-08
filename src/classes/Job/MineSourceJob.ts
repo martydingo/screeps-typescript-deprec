@@ -5,6 +5,13 @@ export class MineSourceJob {
   public JobParameters: MineSourceJobParameters;
   public constructor(JobParameters: MineSourceJobParameters, count = 1) {
     this.JobParameters = JobParameters;
+    Object.entries(Memory.queues.jobs)
+      .filter(([, jobMemory]) => jobMemory.jobParameters.jobType === this.JobParameters.jobType)
+      .forEach(([jobUUID, jobMemory]) => {
+        if (jobMemory.index > count) {
+          this.deleteJob(jobUUID);
+        }
+      });
     if (count === 1) {
       const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.sourceId}-1`);
       this.createJob(UUID, 1);
@@ -34,6 +41,14 @@ export class MineSourceJob {
         jobType: "mineSource",
         timeAdded: Game.time
       };
+    }
+  }
+  private deleteJob(UUID: string) {
+    if (!Memory.queues.jobs[UUID]) {
+      Log.Informational(
+        `Deleting  "MineSourceJob" for Source ID: "${this.JobParameters.sourceId}" with the UUID "${UUID}"`
+      );
+      delete Memory.queues.jobs[UUID];
     }
   }
 }

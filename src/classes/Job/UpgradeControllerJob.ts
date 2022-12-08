@@ -5,6 +5,13 @@ export class UpgradeControllerJob {
   public JobParameters: UpgradeControllerJobParameters;
   public constructor(JobParameters: UpgradeControllerJobParameters, count = 1) {
     this.JobParameters = JobParameters;
+    Object.entries(Memory.queues.jobs)
+      .filter(([, jobMemory]) => jobMemory.jobParameters.jobType === this.JobParameters.jobType)
+      .forEach(([jobUUID, jobMemory]) => {
+        if (jobMemory.index > count) {
+          this.deleteJob(jobUUID);
+        }
+      });
     if (count === 1) {
       const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.controllerId}-1`);
       this.createJob(UUID, 1);
@@ -20,7 +27,7 @@ export class UpgradeControllerJob {
   private createJob(UUID: string, index: number) {
     if (!Memory.queues.jobs[UUID]) {
       Log.Informational(
-        `Creating "UpgradeControllerJob" for Source ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
+        `Creating "UpgradeControllerJob" for Controller ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
       );
       Memory.queues.jobs[UUID] = {
         jobParameters: {
@@ -39,7 +46,7 @@ export class UpgradeControllerJob {
   private deleteJob(UUID: string) {
     if (!Memory.queues.jobs[UUID]) {
       Log.Informational(
-        `Deleting "UpgradeControllerJob" for Source ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
+        `Deleting "UpgradeControllerJob" for Controller ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
       );
       delete Memory.queues.jobs[UUID];
     }

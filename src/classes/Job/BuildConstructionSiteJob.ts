@@ -5,6 +5,13 @@ export class BuildConstructionSiteJob {
   public JobParameters: BuildConstructionSiteJobParameters;
   public constructor(JobParameters: BuildConstructionSiteJobParameters, count = 1) {
     this.JobParameters = JobParameters;
+    Object.entries(Memory.queues.jobs)
+      .filter(([, jobMemory]) => jobMemory.jobParameters.jobType === this.JobParameters.jobType)
+      .forEach(([jobUUID, jobMemory]) => {
+        if (jobMemory.index > count) {
+          this.deleteJob(jobUUID);
+        }
+      });
     if (count === 1) {
       const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.room}-1`);
       this.createJob(UUID, 1);
@@ -33,6 +40,14 @@ export class BuildConstructionSiteJob {
         jobType: "buildConstructionSite",
         timeAdded: Game.time
       };
+    }
+  }
+  private deleteJob(UUID: string) {
+    if (!Memory.queues.jobs[UUID]) {
+      Log.Informational(
+        `Deleting "BuildConstructionSiteJob" for room: "${this.JobParameters.room}" with the UUID "${UUID}"`
+      );
+      delete Memory.queues.jobs[UUID];
     }
   }
 }

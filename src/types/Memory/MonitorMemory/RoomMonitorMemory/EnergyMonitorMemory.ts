@@ -6,8 +6,9 @@ declare global {
         energyAvailable: number;
         energyCapacity: number;
       };
-      minmumAvailableEnergy?: number;
-      maximumAvailableEnergy?: number;
     };
+    maximumEnergyAvailable?: number;
+    minimumEnergyAvailable?: number;
+    averageEnergyAvailable?: number;
   }
 }
