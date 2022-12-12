@@ -9,13 +9,16 @@ import { myScreepsUsername } from "configuration/user";
 
 export class RoomOperator {
   public constructor() {
-    const roomsToOperate = roomsToMine;
-    roomsToOperate.push(...roomsToClaim);
+    const roomsToOperate: string[] = [];
+    roomsToOperate.concat(roomsToMine);
+    roomsToOperate.concat(roomsToClaim);
     Object.entries(Game.rooms).forEach(([roomName]) => {
       roomsToOperate.push(roomName);
     });
     //
+    console.log(`Pre - roomsToOperate ${Game.time} - ${JSON.stringify(roomsToOperate)} - ${Game.cpu.getUsed()}`);
     roomsToOperate.forEach(roomName => {
+      // console.log(`${Game.time.toString()} - ${roomName}`);
       this.runRoomMonitor(roomName);
       const room = Game.rooms[roomName];
       if (room) {
