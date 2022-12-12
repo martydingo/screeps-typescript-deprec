@@ -2481,9 +2481,9 @@ class ScoutRoomJob {
     }
 }
 
-const roomsToClaim = ["W8N2"];
+const roomsToClaim = [];
 
-const roomsToMine = ["W7N3"];
+const roomsToMine = [];
 
 class ReserveRoomJob {
     constructor(JobParameters, count = 1) {
@@ -2536,17 +2536,14 @@ class ReserveRoomJob {
 
 class RoomOperator {
     constructor() {
-        const roomsToOperate = [];
-        roomsToOperate.concat(roomsToMine);
-        roomsToOperate.concat(roomsToClaim);
+        const roomsToOperate = roomsToMine;
+        roomsToOperate.push(...roomsToClaim);
         Object.entries(Game.rooms).forEach(([roomName]) => {
             roomsToOperate.push(roomName);
         });
         //
-        console.log(`Pre - roomsToOperate ${Game.time} - ${JSON.stringify(roomsToOperate)} - ${Game.cpu.getUsed()}`);
         roomsToOperate.forEach(roomName => {
             var _a, _b;
-            // console.log(`${Game.time.toString()} - ${roomName}`);
             this.runRoomMonitor(roomName);
             const room = Game.rooms[roomName];
             if (room) {
@@ -3065,7 +3062,6 @@ class SpawnQueue {
     }
 }
 
-<<<<<<< HEAD
 class Queue {
     constructor() {
         this.initalizeQueueMemory();
@@ -3126,54 +3122,6 @@ const loop = () => {
         pixels: Game.resources.pixel || 0
     };
     // resetQueues.resetAllQueues();
-=======
-class Queue {
-    constructor() {
-        this.initalizeQueueMemory();
-        this.runQueues();
-    }
-    initalizeQueueMemory() {
-        if (!Memory.queues) {
-            Memory.queues = {
-                jobs: {},
-                spawn: {},
-            };
-        }
-    }
-    runQueues() {
-        this.runJobQueue();
-        this.runSpawnQueue();
-    }
-    runSpawnQueue() {
-        new SpawnQueue();
-    }
-    runJobQueue() {
-        new JobQueue();
-    }
-}
-
-const garbageCollect = {
-    creeps() {
-        for (const name in Memory.creeps) {
-            if (!(name in Game.creeps)) {
-                Log.Debug(`Clearing ${name} Creep Memory`);
-                delete Memory.creeps[name];
-            }
-        }
-    },
-};
-
-// When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
-// This utility uses source maps to get the line numbers and file names of the original, TS source code
-// export const loop = errorMapper.wrapLoop(() => {
-const loop = () => {
-    Log.Informational(`Current game tick is ${Game.time}`);
-    garbageCollect.creeps();
-    new Monitor();
-    new Queue();
-    new Operator();
-    // });
->>>>>>> 523c401 (Set UpgradeController Count to 4)
 };
 // });
 

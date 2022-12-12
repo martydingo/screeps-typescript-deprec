@@ -1,1 +1,1 @@
-export const roomsToMine = ["W7N3"];
+export const roomsToMine = [];

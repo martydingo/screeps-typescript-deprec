@@ -1,1 +1,1 @@
-export const roomsToClaim = ["W8N2"];
+export const roomsToClaim = [];
