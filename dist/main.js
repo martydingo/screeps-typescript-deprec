@@ -2536,14 +2536,17 @@ class ReserveRoomJob {
 
 class RoomOperator {
     constructor() {
-        const roomsToOperate = roomsToMine;
-        roomsToOperate.push(...roomsToClaim);
+        const roomsToOperate = [];
+        roomsToOperate.concat(roomsToMine);
+        roomsToOperate.concat(roomsToClaim);
         Object.entries(Game.rooms).forEach(([roomName]) => {
             roomsToOperate.push(roomName);
         });
         //
+        console.log(`Pre - roomsToOperate ${Game.time} - ${JSON.stringify(roomsToOperate)} - ${Game.cpu.getUsed()}`);
         roomsToOperate.forEach(roomName => {
             var _a, _b;
+            // console.log(`${Game.time.toString()} - ${roomName}`);
             this.runRoomMonitor(roomName);
             const room = Game.rooms[roomName];
             if (room) {
