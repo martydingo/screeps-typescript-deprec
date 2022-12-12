@@ -10,7 +10,7 @@ export class Queue {
     if (!Memory.queues) {
       Memory.queues = {
         jobs: {},
-        spawn: {},
+        spawn: {}
       };
     }
   }

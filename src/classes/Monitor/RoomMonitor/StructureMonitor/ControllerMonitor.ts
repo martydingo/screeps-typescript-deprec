@@ -4,7 +4,7 @@ export class ControllerMonitor {
   }
 
   private monitorController(controller: StructureController): void {
-    if (controller.my) {
+    if (controller) {
       const room: Room = controller.room;
       let controllerMonitorDictionary: ControllerMonitorMemory;
       if (controller.safeMode) {
@@ -14,7 +14,7 @@ export class ControllerMonitor {
           nextLevel: controller.progressTotal,
           downgrade: controller.ticksToDowngrade,
           safeMode: true,
-          safeModeCooldown: controller.safeMode,
+          safeModeCooldown: controller.safeMode
         };
       } else {
         controllerMonitorDictionary = {
@@ -22,11 +22,10 @@ export class ControllerMonitor {
           progress: controller.progress,
           nextLevel: controller.progressTotal,
           downgrade: controller.ticksToDowngrade,
-          safeMode: false,
+          safeMode: false
         };
       }
-      room.memory.monitoring.structures.controller =
-        controllerMonitorDictionary;
+      room.memory.monitoring.structures.controller = controllerMonitorDictionary;
     }
   }
 }

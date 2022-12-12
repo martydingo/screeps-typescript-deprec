@@ -1,7 +1,10 @@
 import { BuildConstructionSiteCreep } from "classes/Creep/BuildConstructionSiteCreep";
+import { ClaimRoomCreep } from "classes/Creep/ClaimRoomCreep";
 import { FeedSpawnCreep } from "classes/Creep/FeedSpawnCreep";
 import { FeedTowerCreep } from "classes/Creep/FeedTowerCreep";
 import { LootResourceCreep } from "classes/Creep/LootResourceCreep";
+import { ReserveRoomCreep } from "classes/Creep/ReserveRoomCreep";
+import { ScoutRoomCreep } from "classes/Creep/ScoutRoomCreep";
 import { SourceMinerCreep } from "classes/Creep/SourceMinerCreep";
 import { UpgradeControllerCreep } from "classes/Creep/UpgradeControllerCreep";
 
@@ -14,8 +17,11 @@ export class CreepOperator {
     this.runSourceMinerCreeps();
     this.runFeedTowerCreeps();
     this.runUpgradeControllerCreeps();
-    this.runBuildConstructionSiteCreeps();
     this.runLootResourceCreeps();
+    this.runScoutRoomCreeps();
+    this.runReserveRoomCreeps();
+    this.runClaimRoomCreeps();
+    this.runBuildConstructionSiteCreeps();
   }
   private runSourceMinerCreeps() {
     Object.entries(Game.creeps)
@@ -54,9 +60,30 @@ export class CreepOperator {
   }
   private runLootResourceCreeps() {
     Object.entries(Game.creeps)
-      .filter(([, Creep]) => Creep.memory.jobType === "buildConstructionSite")
+      .filter(([, Creep]) => Creep.memory.jobType === "lootResource")
       .forEach(([, creep]) => {
         new LootResourceCreep(creep);
+      });
+  }
+  private runScoutRoomCreeps() {
+    Object.entries(Game.creeps)
+      .filter(([, Creep]) => Creep.memory.jobType === "scoutRoom")
+      .forEach(([, creep]) => {
+        new ScoutRoomCreep(creep);
+      });
+  }
+  private runClaimRoomCreeps() {
+    Object.entries(Game.creeps)
+      .filter(([, Creep]) => Creep.memory.jobType === "claimRoom")
+      .forEach(([, creep]) => {
+        new ClaimRoomCreep(creep);
+      });
+  }
+  private runReserveRoomCreeps() {
+    Object.entries(Game.creeps)
+      .filter(([, Creep]) => Creep.memory.jobType === "reserveRoom")
+      .forEach(([, creep]) => {
+        new ReserveRoomCreep(creep);
       });
   }
 }

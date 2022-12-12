@@ -11,34 +11,24 @@ export class BuildConstructionSiteCreep extends BaseCreep {
       this.fetchSource(creep);
     } else {
       if (creep.memory.status === "working") {
-        const constructionSites = Object.entries(
-          creep.room.memory.monitoring.constructionSites
-        ).sort(
+        const constructionSites = Object.entries(creep.room.memory.monitoring.constructionSites).sort(
           ([, constructionSiteMemoryA], [, constructionSiteMemoryB]) =>
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-unsafe-return
             constructionSiteMemoryA.progress + constructionSiteMemoryB.progress
         );
         if (constructionSites[0]) {
-          const constructionSiteId =
-            constructionSites[0][0] as Id<ConstructionSite>;
+          const constructionSiteId = constructionSites[0][0] as Id<ConstructionSite>;
           if (constructionSiteId) {
-            const constructionSite: ConstructionSite | null =
-              Game.getObjectById(constructionSiteId);
+            const constructionSite: ConstructionSite | null = Game.getObjectById(constructionSiteId);
             if (constructionSite) {
-              const buildResult = this.buildConstructionSite(
-                creep,
-                constructionSite
-              );
+              const buildResult = this.buildConstructionSite(creep, constructionSite);
             }
           }
         }
       }
     }
   }
-  private buildConstructionSite(
-    creep: Creep,
-    constructionSite: ConstructionSite
-  ): ScreepsReturnCode {
+  private buildConstructionSite(creep: Creep, constructionSite: ConstructionSite): ScreepsReturnCode {
     const upgradeResult: ScreepsReturnCode = creep.build(constructionSite);
     if (upgradeResult === ERR_NOT_IN_RANGE) {
       const moveResult = this.moveCreep(creep, constructionSite.pos);

@@ -5,6 +5,7 @@ declare global {
     status: string;
     towerId: Id<StructureTower>;
     room: string;
+    spawnRoom?: string;
     jobType: "feedTower";
   }
 }

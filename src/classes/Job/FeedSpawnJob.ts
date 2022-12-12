@@ -17,16 +17,12 @@ export class FeedSpawnJob {
         }
       });
     if (count === 1) {
-      const UUID = base64.encode(
-        `${this.JobParameters.jobType}-${this.JobParameters.spawnId}-1`
-      );
+      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.spawnId}-1`);
       this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
-        const UUID = base64.encode(
-          `${this.JobParameters.jobType}-${this.JobParameters.spawnId}-${iterations}`
-        );
+        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.spawnId}-${iterations}`);
         this.createJob(UUID, iterations);
         iterations++;
       }
@@ -43,11 +39,12 @@ export class FeedSpawnJob {
           status: "fetchingResource",
           spawnId: this.JobParameters.spawnId,
           room: this.JobParameters.room,
-          jobType: "feedSpawn",
+          jobType: "feedSpawn"
         },
         index,
+        room: this.JobParameters.room,
         jobType: "feedSpawn",
-        timeAdded: Game.time,
+        timeAdded: Game.time
       };
     }
   }

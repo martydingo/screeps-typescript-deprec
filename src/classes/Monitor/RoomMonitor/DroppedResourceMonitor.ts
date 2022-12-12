@@ -19,36 +19,28 @@ export class DroppedResourceMonitor {
   }
   private monitorDroppedResources(): void {
     const droppedResources = this.room.find(FIND_DROPPED_RESOURCES);
-    droppedResources.forEach((droppedResource) => {
+    droppedResources.forEach(droppedResource => {
       this.room.memory.monitoring.droppedResources[droppedResource.id] = {
         resourceType: droppedResource.resourceType,
-        amount: droppedResource.amount,
+        amount: droppedResource.amount
       };
     });
   }
   private cleanDroppedResources(): void {
-    Object.entries(this.room.memory.monitoring.droppedResources).forEach(
-      ([droppedResourceId]) => {
-        const droppedResource = Game.getObjectById(
-          droppedResourceId as Id<Resource<ResourceConstant>>
-        );
-        if (!droppedResource) {
-          delete this.room.memory.monitoring.droppedResources[
-            droppedResourceId as Id<Resource<ResourceConstant>>
-          ];
-        }
+    Object.entries(this.room.memory.monitoring.droppedResources).forEach(([droppedResourceId]) => {
+      const droppedResource = Game.getObjectById(droppedResourceId as Id<Resource<ResourceConstant>>);
+      if (!droppedResource) {
+        delete this.room.memory.monitoring.droppedResources[droppedResourceId as Id<Resource<ResourceConstant>>];
       }
-    );
+    });
   }
   private createLootResourceJob(): void {
     if (this.room.memory.monitoring.structures.storage) {
-      if (
-        Object.entries(this.room.memory.monitoring.droppedResources).length > 0
-      ) {
+      if (Object.entries(this.room.memory.monitoring.droppedResources).length > 0) {
         const jobParameters: LootResourceJobParameters = {
           room: this.room.name,
           status: "fetchingResource",
-          jobType: "lootResource",
+          jobType: "lootResource"
         };
         const count: number = creepNumbers[jobParameters.jobType];
         new LootResourceJob(jobParameters, count);

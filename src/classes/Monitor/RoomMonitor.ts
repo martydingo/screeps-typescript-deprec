@@ -1,9 +1,9 @@
-import { SourceMonitor } from "./RoomMonitor/SourceMonitor";
-import { DroppedResourceMonitor } from "./RoomMonitor/DroppedResourceMonitor";
 import { ConstructionSiteMonitor } from "./RoomMonitor/ConstructionSiteMonitor";
-import { StructureMonitor } from "./RoomMonitor/StructureMonitor";
+import { DroppedResourceMonitor } from "./RoomMonitor/DroppedResourceMonitor";
 import { EnergyMonitor } from "./RoomMonitor/EnergyMonitor";
 import { HostileMonitor } from "./RoomMonitor/HostileMonitor";
+import { SourceMonitor } from "./RoomMonitor/SourceMonitor";
+import { StructureMonitor } from "./RoomMonitor/StructureMonitor";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface RoomMonitor extends SourceMonitor {}
@@ -31,27 +31,35 @@ export class RoomMonitor {
           constructionSites: {},
           droppedResources: {},
           energy: {
-            history: {},
+            history: {}
           },
           hostiles: {},
           sources: {},
           structures: {
-            other: {},
-          },
-        },
+            spawns: {},
+            extensions: {},
+            roads: {},
+            towers: {},
+            other: {}
+          }
+        }
       };
     } else if (!Memory.rooms[this.roomName].monitoring) {
       Memory.rooms[this.roomName].monitoring = {
         constructionSites: {},
         droppedResources: {},
         energy: {
-          history: {},
+          history: {}
         },
         hostiles: {},
         sources: {},
         structures: {
-          other: {},
-        },
+          spawns: {},
+          extensions: {},
+          roads: {},
+          towers: {},
+          other: {}
+        }
       };
     }
   }
@@ -75,7 +83,7 @@ export class RoomMonitor {
     new HostileMonitor(this.room);
   }
   private runSourceMonitors(): void {
-    this.room.find(FIND_SOURCES).forEach((source) => {
+    this.room.find(FIND_SOURCES).forEach(source => {
       new SourceMonitor(source.id);
     });
   }

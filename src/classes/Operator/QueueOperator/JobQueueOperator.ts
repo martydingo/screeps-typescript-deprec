@@ -6,10 +6,14 @@ export class JobQueueOperator {
   }
   private processJobs() {
     for (const jobUUID in Memory.queues.jobs) {
-      const desiredBodyParts = fetchBodyParts(
-        Memory.queues.jobs[jobUUID].jobType,
-        Memory.queues.jobs[jobUUID].jobParameters.room
-      );
+      let spawnRoom = Memory.queues.jobs[jobUUID].jobParameters.room;
+      if (Memory.queues.jobs[jobUUID].jobParameters.spawnRoom) {
+        const spawnRoomString = Memory.queues.jobs[jobUUID].jobParameters.spawnRoom;
+        if (spawnRoomString) {
+          spawnRoom = spawnRoomString;
+        }
+      }
+      const desiredBodyParts = fetchBodyParts(Memory.queues.jobs[jobUUID].jobType, spawnRoom);
       // console.log(`${Memory.queues.jobs[jobUUID].jobType}: ${desiredBodyParts.toString()}`);
       if (!Memory.queues.spawn[jobUUID]) {
         if (!this.checkCreep(jobUUID)) {
@@ -19,7 +23,8 @@ export class JobQueueOperator {
             creepType: Memory.queues.jobs[jobUUID].jobType,
             bodyParts: desiredBodyParts,
             room: Memory.queues.jobs[jobUUID].jobParameters.room,
-            jobParameters: Memory.queues.jobs[jobUUID].jobParameters,
+            spawnRoom: Memory.queues.jobs[jobUUID].jobParameters.spawnRoom,
+            jobParameters: Memory.queues.jobs[jobUUID].jobParameters
           };
         }
       } else {

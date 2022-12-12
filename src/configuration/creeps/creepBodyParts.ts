@@ -10,107 +10,37 @@ export const creepBodyParts: {
     lootResource: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
     upgradeController: [WORK, WORK, CARRY, MOVE],
     buildConstructionSite: [WORK, WORK, CARRY, MOVE],
+    scoutRoom: [MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM],
+    reserveRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM]
   },
   2: {
     // Second level is the jobType.
     mineSource: [WORK, WORK, WORK, WORK, MOVE, MOVE, CARRY],
     feedSpawn: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    lootResource: [
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
+    lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     upgradeController: [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
     buildConstructionSite: [WORK, WORK, WORK, MOVE, MOVE, CARRY, CARRY, MOVE],
+    scoutRoom: [MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM],
+    reserveRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM]
   },
   3: {
     // Second level is the jobType.
     mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, CARRY, CARRY],
-    feedSpawn: [
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
+    feedSpawn: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    lootResource: [
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
-    upgradeController: [
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
-    buildConstructionSite: [
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
+    lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    upgradeController: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+    buildConstructionSite: [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+    scoutRoom: [MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM],
+    reserveRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM]
   },
   4: {
     // Second level is the jobType.
-    mineSource: [
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      CARRY,
-    ],
+    mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
     feedSpawn: [
       CARRY,
       CARRY,
@@ -137,21 +67,10 @@ export const creepBodyParts: {
       MOVE,
       MOVE,
       MOVE,
-      MOVE,
+      MOVE
     ],
     feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    lootResource: [
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
+    lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     upgradeController: [
       WORK,
       WORK,
@@ -173,7 +92,7 @@ export const creepBodyParts: {
       MOVE,
       MOVE,
       MOVE,
-      MOVE,
+      MOVE
     ],
     buildConstructionSite: [
       WORK,
@@ -196,26 +115,15 @@ export const creepBodyParts: {
       MOVE,
       MOVE,
       MOVE,
-      MOVE,
+      MOVE
     ],
+    scoutRoom: [MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM],
+    reserveRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM]
   },
   5: {
     // Second level is the jobType.
-    mineSource: [
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      CARRY,
-    ],
+    mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
     feedSpawn: [
       MOVE,
       MOVE,
@@ -252,21 +160,10 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
     feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    lootResource: [
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
+    lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     upgradeController: [
       MOVE,
       MOVE,
@@ -297,7 +194,7 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
     buildConstructionSite: [
       MOVE,
@@ -329,26 +226,15 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
+    scoutRoom: [MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM],
+    reserveRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM]
   },
   6: {
     // Second level is the jobType.
-    mineSource: [
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      CARRY,
-    ],
+    mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
     feedSpawn: [
       MOVE,
       MOVE,
@@ -395,21 +281,10 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
     feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    lootResource: [
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
+    lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     upgradeController: [
       MOVE,
       MOVE,
@@ -447,7 +322,7 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
     buildConstructionSite: [
       MOVE,
@@ -486,26 +361,15 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
+    scoutRoom: [MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM],
+    reserveRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM]
   },
   7: {
     // Second level is the jobType.
-    mineSource: [
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      CARRY,
-    ],
+    mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
     feedSpawn: [
       MOVE,
       MOVE,
@@ -556,21 +420,10 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
     feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    lootResource: [
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
+    lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     upgradeController: [
       MOVE,
       MOVE,
@@ -621,7 +474,7 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
     buildConstructionSite: [
       MOVE,
@@ -673,26 +526,15 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
+    scoutRoom: [MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM],
+    reserveRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM]
   },
   8: {
     // Second level is the jobType.
-    mineSource: [
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      WORK,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      CARRY,
-    ],
+    mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
     feedSpawn: [
       MOVE,
       MOVE,
@@ -743,21 +585,10 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
     feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-    lootResource: [
-      CARRY,
-      CARRY,
-      CARRY,
-      CARRY,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-      MOVE,
-    ],
+    lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     upgradeController: [
       MOVE,
       MOVE,
@@ -808,7 +639,7 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
     buildConstructionSite: [
       MOVE,
@@ -860,7 +691,10 @@ export const creepBodyParts: {
       CARRY,
       CARRY,
       CARRY,
-      CARRY,
+      CARRY
     ],
-  },
+    scoutRoom: [MOVE, MOVE, MOVE, MOVE, MOVE],
+    claimRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM],
+    reserveRoom: [MOVE, MOVE, MOVE, MOVE, MOVE, CLAIM]
+  }
 };

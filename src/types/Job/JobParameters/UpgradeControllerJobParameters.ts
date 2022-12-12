@@ -5,6 +5,7 @@ declare global {
     status: string;
     controllerId: Id<StructureController>;
     room: string;
+    spawnRoom: string;
     jobType: "upgradeController";
   }
 }

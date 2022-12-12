@@ -17,16 +17,12 @@ export class MineSourceJob {
         }
       });
     if (count === 1) {
-      const UUID = base64.encode(
-        `${this.JobParameters.jobType}-${this.JobParameters.sourceId}-1`
-      );
+      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.sourceId}-1`);
       this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
-        const UUID = base64.encode(
-          `${this.JobParameters.jobType}-${this.JobParameters.sourceId}-${iterations}`
-        );
+        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.sourceId}-${iterations}`);
         this.createJob(UUID, iterations);
         iterations++;
       }
@@ -42,12 +38,14 @@ export class MineSourceJob {
           uuid: UUID,
           status: "fetchingResource",
           sourceId: this.JobParameters.sourceId,
+          spawnRoom: this.JobParameters.spawnRoom,
           room: this.JobParameters.room,
-          jobType: "mineSource",
+          jobType: "mineSource"
         },
         index,
+        room: this.JobParameters.room,
         jobType: "mineSource",
-        timeAdded: Game.time,
+        timeAdded: Game.time
       };
     }
   }

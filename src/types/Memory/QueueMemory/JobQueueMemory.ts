@@ -10,10 +10,14 @@ declare global {
         | FeedTowerJobParameters
         | UpgradeControllerJobParameters
         | BuildConstructionSiteJobParameters
-        | LootResourceJobParameters;
+        | LootResourceJobParameters
+        | ScoutRoomJobParameters
+        | ClaimRoomJobParameters
+        | ReserveRoomJobParameters;
       jobType: string;
       timeAdded: Game["time"];
       assignedCreep?: Id<Creep>;
+      room: string;
     };
   }
 }

@@ -1,3 +1,0 @@
-interface Creep {
-  bodyParts: BodyPartConstant[];
-}

@@ -11,15 +11,13 @@ export class FeedSpawnCreep extends BaseCreep {
       this.fetchSource(creep);
     } else {
       if (creep.memory.status === "working") {
-        const notFullSpawnObjectArray: (StructureSpawn | StructureExtension)[] =
-          [];
+        const notFullSpawnObjectArray: (StructureSpawn | StructureExtension)[] = [];
         if (creep.room.memory.monitoring.structures.spawns) {
           Object.entries(creep.room.memory.monitoring.structures.spawns)
             .filter(
-              (Spawn) =>
+              Spawn =>
                 Game.spawns[Spawn[0]].room === creep.room &&
-                Game.spawns[Spawn[0]].store[RESOURCE_ENERGY] <
-                  Game.spawns[Spawn[0]].store.getCapacity(RESOURCE_ENERGY)
+                Game.spawns[Spawn[0]].store[RESOURCE_ENERGY] < Game.spawns[Spawn[0]].store.getCapacity(RESOURCE_ENERGY)
             )
             .forEach(([spawnName]) => {
               const spawn = Game.spawns[spawnName];
@@ -29,10 +27,7 @@ export class FeedSpawnCreep extends BaseCreep {
         if (creep.room.memory.monitoring.structures.extensions) {
           Object.entries(creep.room.memory.monitoring.structures.extensions)
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            .filter(
-              ([, ExtensionMemory]) =>
-                ExtensionMemory.energyAvailable < ExtensionMemory.energyCapacity
-            )
+            .filter(([, ExtensionMemory]) => ExtensionMemory.energyAvailable < ExtensionMemory.energyCapacity)
             .forEach(([extensionIdString]) => {
               const extensionId = extensionIdString as Id<StructureExtension>;
               const extension = Game.getObjectById(extensionId);
@@ -41,15 +36,9 @@ export class FeedSpawnCreep extends BaseCreep {
               }
             });
         }
-        const closestNotFullSpawnObject = creep.pos.findClosestByPath(
-          notFullSpawnObjectArray
-        );
+        const closestNotFullSpawnObject = creep.pos.findClosestByPath(notFullSpawnObjectArray);
         if (closestNotFullSpawnObject) {
-          this.depositResource(
-            creep,
-            closestNotFullSpawnObject,
-            RESOURCE_ENERGY
-          );
+          this.depositResource(creep, closestNotFullSpawnObject, RESOURCE_ENERGY);
         }
       }
     }

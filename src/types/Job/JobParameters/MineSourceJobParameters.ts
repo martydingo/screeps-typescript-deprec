@@ -5,6 +5,7 @@ declare global {
     status: string;
     sourceId: Id<Source>;
     room: string;
+    spawnRoom: string;
     jobType: "mineSource";
   }
 }

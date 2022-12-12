@@ -5,6 +5,7 @@ declare global {
       uuid: string;
       name: string;
       room: string;
+      spawnRoom?: string;
       creepType: string;
       bodyParts: BodyPartConstant[];
       jobParameters:
@@ -13,7 +14,10 @@ declare global {
         | FeedTowerJobParameters
         | UpgradeControllerJobParameters
         | BuildConstructionSiteJobParameters
-        | LootResourceJobParameters;
+        | LootResourceJobParameters
+        | ScoutRoomJobParameters
+        | ClaimRoomJobParameters
+        | ReserveRoomJobParameters;
     };
   }
 }

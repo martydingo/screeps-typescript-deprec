@@ -13,8 +13,7 @@ export class UpgradeControllerCreep extends BaseCreep {
       if (creep.memory.status === "working") {
         const controllerId = creep.memory.controllerId;
         if (controllerId) {
-          const controller: StructureController | null =
-            Game.getObjectById(controllerId);
+          const controller: StructureController | null = Game.getObjectById(controllerId);
           if (controller) {
             const upgradeResult = this.upgradeController(creep, controller);
           }
@@ -22,12 +21,8 @@ export class UpgradeControllerCreep extends BaseCreep {
       }
     }
   }
-  private upgradeController(
-    creep: Creep,
-    controller: StructureController
-  ): ScreepsReturnCode {
-    const upgradeResult: ScreepsReturnCode =
-      creep.upgradeController(controller);
+  private upgradeController(creep: Creep, controller: StructureController): ScreepsReturnCode {
+    const upgradeResult: ScreepsReturnCode = creep.upgradeController(controller);
     if (upgradeResult === ERR_NOT_IN_RANGE) {
       const moveResult = this.moveCreep(creep, controller.pos);
       return moveResult;

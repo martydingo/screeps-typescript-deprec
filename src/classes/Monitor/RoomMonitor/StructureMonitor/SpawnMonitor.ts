@@ -18,13 +18,13 @@ export class SpawnMonitor {
       spawn.room.memory.monitoring.structures.spawns[spawn.name] = {
         energy: {
           energyAvailable: spawn.store[RESOURCE_ENERGY],
-          energyCapacity: spawn.store.getCapacity(RESOURCE_ENERGY),
+          energyCapacity: spawn.store.getCapacity(RESOURCE_ENERGY)
         },
         structure: {
           hits: spawn.hits,
-          hitsMax: spawn.hitsMax,
+          hitsMax: spawn.hitsMax
         },
-        spawning,
+        spawning
       };
     }
   }

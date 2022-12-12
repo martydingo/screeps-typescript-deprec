@@ -2,8 +2,7 @@
 // Juszczak/base64-typescript-class.ts
 export class base64 {
   private static PADCHAR = "=";
-  private static ALPHA =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  private static ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
   private static getByte(s: string, i: number): number {
     const x = s.charCodeAt(i);
@@ -47,10 +46,7 @@ export class base64 {
 
     switch (pads) {
       case 1:
-        b10 =
-          (this.getByte64(s, i) << 18) |
-          (this.getByte64(s, i + 1) << 12) |
-          (this.getByte64(s, i + 2) << 6);
+        b10 = (this.getByte64(s, i) << 18) | (this.getByte64(s, i + 1) << 12) | (this.getByte64(s, i + 2) << 6);
         x.push(String.fromCharCode(b10 >> 16, (b10 >> 8) & 255));
         break;
       case 2:
@@ -75,10 +71,7 @@ export class base64 {
     }
 
     for (i = 0; i < imax; i += 3) {
-      b10 =
-        (this.getByte(s, i) << 16) |
-        (this.getByte(s, i + 1) << 8) |
-        this.getByte(s, i + 2);
+      b10 = (this.getByte(s, i) << 16) | (this.getByte(s, i + 1) << 8) | this.getByte(s, i + 2);
       x.push(this.ALPHA.charAt(b10 >> 18));
       x.push(this.ALPHA.charAt((b10 >> 12) & 63));
       x.push(this.ALPHA.charAt((b10 >> 6) & 63));
@@ -88,12 +81,7 @@ export class base64 {
     switch (s.length - imax) {
       case 1:
         b10 = this.getByte(s, i) << 16;
-        x.push(
-          this.ALPHA.charAt(b10 >> 18) +
-            this.ALPHA.charAt((b10 >> 12) & 63) +
-            this.PADCHAR +
-            this.PADCHAR
-        );
+        x.push(this.ALPHA.charAt(b10 >> 18) + this.ALPHA.charAt((b10 >> 12) & 63) + this.PADCHAR + this.PADCHAR);
         break;
       case 2:
         b10 = (this.getByte(s, i) << 16) | (this.getByte(s, i + 1) << 8);

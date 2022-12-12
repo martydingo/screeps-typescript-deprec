@@ -9,10 +9,13 @@ declare global {
       | "feedTower"
       | "upgradeController"
       | "buildConstructionSite"
-      | "lootResource";
+      | "lootResource"
+      | "scoutRoom"
+      | "claimRoom"
+      | "reserveRoom";
     sourceId?: Id<Source>;
     towerId?: Id<StructureTower>;
     controllerId?: Id<StructureController>;
-    room?: string;
+    room: string;
   }
 }

@@ -5,6 +5,7 @@ declare global {
     status: string;
     spawnId: Id<StructureSpawn>;
     room: string;
+    spawnRoom?: string;
     jobType: "feedSpawn";
   }
 }

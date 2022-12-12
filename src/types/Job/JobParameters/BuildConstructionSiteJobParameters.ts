@@ -4,6 +4,7 @@ declare global {
     uuid?: string;
     status: string;
     room: string;
+    spawnRoom: string;
     jobType: "buildConstructionSite";
   }
 }

@@ -13,21 +13,19 @@ export class HostileMonitor {
     }
   }
   private cleanHostilesMemory(): void {
-    Object.entries(this.room.memory.monitoring.hostiles).forEach(
-      ([hostileIdString]) => {
-        const hostileId = hostileIdString as Id<Creep>;
-        const hostile = Game.getObjectById(hostileId);
-        if (!hostile) {
-          delete this.room.memory.monitoring.hostiles[hostileId];
-        }
+    Object.entries(this.room.memory.monitoring.hostiles).forEach(([hostileIdString]) => {
+      const hostileId = hostileIdString as Id<Creep>;
+      const hostile = Game.getObjectById(hostileId);
+      if (!hostile) {
+        delete this.room.memory.monitoring.hostiles[hostileId];
       }
-    );
+    });
   }
   private monitorHostiles(): void {
     const hostileCreeps = this.room.find(FIND_HOSTILE_CREEPS);
-    hostileCreeps.forEach((hostileCreep) => {
+    hostileCreeps.forEach(hostileCreep => {
       const hostileBodyParts: BodyPartConstant[] = [];
-      hostileCreep.body.forEach((bodyPartArray) => {
+      hostileCreep.body.forEach(bodyPartArray => {
         hostileBodyParts.push(bodyPartArray.type);
       });
       this.room.memory.monitoring.hostiles[hostileCreep.id] = {
@@ -35,8 +33,8 @@ export class HostileMonitor {
         bodyParts: hostileBodyParts,
         health: {
           hits: hostileCreep.hits,
-          hitsMax: hostileCreep.hitsMax,
-        },
+          hitsMax: hostileCreep.hitsMax
+        }
       };
     });
   }
