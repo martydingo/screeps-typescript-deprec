@@ -170,7 +170,7 @@ class BuildConstructionSiteJob {
     }
 }
 
-const roomsToAvoid = ["W99S99"];
+const roomsToAvoid = [""];
 
 const myScreepsUsername = "marty";
 
@@ -2481,9 +2481,9 @@ class ScoutRoomJob {
     }
 }
 
-const roomsToClaim = [];
+const roomsToClaim = [""];
 
-const roomsToMine = [];
+const roomsToMine = [""];
 
 class ReserveRoomJob {
     constructor(JobParameters, count = 1) {
@@ -2537,13 +2537,10 @@ class ReserveRoomJob {
 class RoomOperator {
     constructor() {
         const roomsToOperate = [];
-        roomsToOperate.concat(roomsToMine);
-        roomsToOperate.concat(roomsToClaim);
         Object.entries(Game.rooms).forEach(([roomName]) => {
             roomsToOperate.push(roomName);
         });
         //
-        console.log(`Pre - roomsToOperate ${Game.time} - ${JSON.stringify(roomsToOperate)} - ${Game.cpu.getUsed()}`);
         roomsToOperate.forEach(roomName => {
             var _a, _b;
             // console.log(`${Game.time.toString()} - ${roomName}`);
@@ -2554,12 +2551,16 @@ class RoomOperator {
                 if (roomController) {
                     if (roomController.my) ;
                     else {
-                        if (roomsToClaim.includes(roomName)) {
-                            this.createClaimRoomJob(roomName);
+                        if (roomsToClaim) {
+                            if (roomsToClaim.includes(roomName)) {
+                                this.createClaimRoomJob(roomName);
+                            }
                         }
-                        if (roomsToMine.includes(roomName)) {
-                            if (!(((_b = (_a = room.controller) === null || _a === void 0 ? void 0 : _a.reservation) === null || _b === void 0 ? void 0 : _b.username) === myScreepsUsername)) {
-                                this.createReserveRoomJob(roomName);
+                        if (roomsToMine) {
+                            if (roomsToMine.includes(roomName)) {
+                                if (!(((_b = (_a = room.controller) === null || _a === void 0 ? void 0 : _a.reservation) === null || _b === void 0 ? void 0 : _b.username) === myScreepsUsername)) {
+                                    this.createReserveRoomJob(roomName);
+                                }
                             }
                         }
                     }

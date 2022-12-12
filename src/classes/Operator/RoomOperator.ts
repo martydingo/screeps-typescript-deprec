@@ -16,7 +16,6 @@ export class RoomOperator {
       roomsToOperate.push(roomName);
     });
     //
-    console.log(`Pre - roomsToOperate ${Game.time} - ${JSON.stringify(roomsToOperate)} - ${Game.cpu.getUsed()}`);
     roomsToOperate.forEach(roomName => {
       // console.log(`${Game.time.toString()} - ${roomName}`);
       this.runRoomMonitor(roomName);
@@ -27,12 +26,16 @@ export class RoomOperator {
           if (roomController.my) {
             // No Room Operations Required
           } else {
-            if (roomsToClaim.includes(roomName)) {
-              this.createClaimRoomJob(roomName);
+            if (roomsToClaim) {
+              if (roomsToClaim.includes(roomName)) {
+                this.createClaimRoomJob(roomName);
+              }
             }
-            if (roomsToMine.includes(roomName)) {
-              if (!(room.controller?.reservation?.username === myScreepsUsername)) {
-                this.createReserveRoomJob(roomName);
+            if (roomsToMine) {
+              if (roomsToMine.includes(roomName)) {
+                if (!(room.controller?.reservation?.username === myScreepsUsername)) {
+                  this.createReserveRoomJob(roomName);
+                }
               }
             }
           }

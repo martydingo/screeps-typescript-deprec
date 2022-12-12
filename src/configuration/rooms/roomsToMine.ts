@@ -1,1 +1,1 @@
-export const roomsToMine = [];
+export const roomsToMine: string[] = [""];
