@@ -1080,7 +1080,7 @@ class FeedLinkJob {
 const linkConfig = {
     W56N12: {
         "6397f1bd30238608dae79135": "tx",
-        "639864121a5e460386cf8d54": "rx"
+        "639b23129ab55f8634547d74": "rx"
     }
 };
 
