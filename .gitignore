@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-README.md
-=======
->>>>>>> 5f0c6c5 (Added .gitignore)
+.gitignore
+legacy
 # yarn lock file
 /yarn.lock
 
@@ -94,3 +92,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+main.profiler.js
+profiler.ts
+test.js
+test.sh
