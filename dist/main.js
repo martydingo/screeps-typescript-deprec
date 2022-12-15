@@ -513,7 +513,7 @@ class BaseCreep {
         }
         else {
             if (creep.room.memory.monitoring.structures.links) {
-                if (Object.entries(creep.room.memory.monitoring.structures.links).filter(([, cachedLink]) => cachedLink.energy.energyAvailable > 0).length > 0) {
+                if (Object.entries(creep.room.memory.monitoring.structures.links).filter(([, cachedLink]) => cachedLink.mode === "rx" && cachedLink.energy.energyAvailable > 0).length > 0) {
                     linksUsable = true;
                 }
             }
@@ -536,7 +536,7 @@ class BaseCreep {
                 }
                 else {
                     Object.entries(creep.room.memory.monitoring.structures.links)
-                        .filter(([, cachedLink]) => cachedLink.energy.energyAvailable > 0)
+                        .filter(([, cachedLink]) => cachedLink.mode === "rx" && cachedLink.energy.energyAvailable > 0)
                         .forEach(([cachedLinkIdString]) => {
                         const cachedLinkId = cachedLinkIdString;
                         const cachedLink = Game.getObjectById(cachedLinkId);
@@ -1078,8 +1078,8 @@ class FeedLinkJob {
 }
 
 const linkConfig = {
-    W8N3: {
-        "639863d0e16894037b36b4b0": "tx",
+    W56N12: {
+        "6397f1bd30238608dae79135": "tx",
         "639864121a5e460386cf8d54": "rx"
     }
 };

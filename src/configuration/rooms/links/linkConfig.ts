@@ -1,6 +1,6 @@
 export const linkConfig: { [roomName: string]: { [linkId: string]: string } } = {
-  W8N3: {
-    "639863d0e16894037b36b4b0": "tx",
+  W56N12: {
+    "6397f1bd30238608dae79135": "tx",
     "639864121a5e460386cf8d54": "rx"
   }
 };

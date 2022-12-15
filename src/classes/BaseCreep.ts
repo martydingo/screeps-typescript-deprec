@@ -88,7 +88,7 @@ export class BaseCreep {
       if (creep.room.memory.monitoring.structures.links) {
         if (
           Object.entries(creep.room.memory.monitoring.structures.links).filter(
-            ([, cachedLink]) => cachedLink.energy.energyAvailable > 0
+            ([, cachedLink]) => cachedLink.mode === "rx" && cachedLink.energy.energyAvailable > 0
           ).length > 0
         ) {
           linksUsable = true;
@@ -113,7 +113,7 @@ export class BaseCreep {
           useLinks = true;
         } else {
           Object.entries(creep.room.memory.monitoring.structures.links)
-            .filter(([, cachedLink]) => cachedLink.energy.energyAvailable > 0)
+            .filter(([, cachedLink]) => cachedLink.mode === "rx" && cachedLink.energy.energyAvailable > 0)
             .forEach(([cachedLinkIdString]) => {
               const cachedLinkId = cachedLinkIdString as Id<StructureLink>;
               const cachedLink = Game.getObjectById(cachedLinkId);
