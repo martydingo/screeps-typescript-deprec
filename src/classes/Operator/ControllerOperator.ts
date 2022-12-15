@@ -1,6 +1,6 @@
 import { UpgradeControllerJob } from "classes/Job/UpgradeControllerJob";
-import { findPath } from "common/findPath";
 import { creepNumbers } from "configuration/creeps/creepNumbers";
+import { findPath } from "common/findPath";
 
 export class ControllerOperator {
   public constructor() {
@@ -16,27 +16,19 @@ export class ControllerOperator {
             const controller: StructureController | null = Game.getObjectById(controllerId);
             if (controller) {
               if (controller.my) {
-                if (Object.entries(controller.room.memory.monitoring.structures.spawns).length > 0) {
-                  const JobParameters: UpgradeControllerJobParameters = {
-                    status: "fetchingResource",
-                    controllerId: controller.id,
-                    room: controller.pos.roomName,
-                    spawnRoom: controller.pos.roomName,
-                    jobType: "upgradeController"
-                  };
-                  const count: number = creepNumbers[JobParameters.jobType];
-                  new UpgradeControllerJob(JobParameters, count);
-                } else {
-                  const JobParameters: UpgradeControllerJobParameters = {
-                    status: "fetchingResource",
-                    controllerId: controller.id,
-                    spawnRoom: findPath.findClosestSpawnToRoom(controller.pos.roomName).pos.roomName,
-                    room: controller.pos.roomName,
-                    jobType: "upgradeController"
-                  };
-                  const count: number = creepNumbers[JobParameters.jobType];
-                  new UpgradeControllerJob(JobParameters, count);
+                let spawnRoom = controller.pos.roomName;
+                if (Object.entries(controller.room.memory.monitoring.structures.spawns).length === 0) {
+                  spawnRoom = findPath.findClosestSpawnToRoom(controller.pos.roomName).pos.roomName;
                 }
+                const JobParameters: UpgradeControllerJobParameters = {
+                  status: "fetchingResource",
+                  room: controller.pos.roomName,
+                  spawnRoom,
+                  jobType: "upgradeController",
+                  controllerId: controller.id
+                };
+                const count: number = creepNumbers[JobParameters.jobType];
+                new UpgradeControllerJob(JobParameters, count);
               }
             }
           }

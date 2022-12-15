@@ -7,6 +7,7 @@ declare global {
     towers: TowerMonitorMemory;
     storage?: StorageMonitorMemory;
     roads: RoadMonitorMemory;
+    links: LinkMonitorMemory;
     other: {
       [structuredId: Id<Structure>]: {
         structureType: StructureConstant;

@@ -7,7 +7,8 @@ export function creepPriority(room: Room): { [creepType: string]: number } {
     scoutRoom: 5,
     reserveRoom: 6,
     claimRoom: 7,
-    buildConstructionSite: 8
+    buildConstructionSite: 8,
+    feedLink: 9
   };
   if (room) {
     let storageContainsEnergy = false;
@@ -31,7 +32,8 @@ export function creepPriority(room: Room): { [creepType: string]: number } {
         scoutRoom: priority.scoutRoom,
         reserveRoom: priority.reserveRoom,
         claimRoom: priority.claimRoom,
-        buildConstructionSite: priority.buildConstructionSite
+        buildConstructionSite: priority.buildConstructionSite,
+        feedLink: priority.feedLink
       };
     }
   }

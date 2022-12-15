@@ -20,44 +20,31 @@ export class ConstructionSiteOperator {
     }
   }
   private createConstructionSiteJob(roomName: string) {
+    let spawnRoom = roomName;
     if (Object.entries(Memory.rooms[roomName].monitoring.structures.spawns).length > 0) {
-      const JobParameters: BuildConstructionSiteJobParameters = {
-        status: "fetchingResource",
-        room: roomName,
-        spawnRoom: roomName,
-        jobType: "buildConstructionSite"
-      };
-      const count: number = creepNumbers[JobParameters.jobType];
-      new BuildConstructionSiteJob(JobParameters, count);
-    } else {
-      const JobParameters: BuildConstructionSiteJobParameters = {
-        status: "fetchingResource",
-        room: roomName,
-        spawnRoom: findPath.findClosestSpawnToRoom(roomName).pos.roomName,
-        jobType: "buildConstructionSite"
-      };
-      const count: number = creepNumbers[JobParameters.jobType];
-      new BuildConstructionSiteJob(JobParameters, count);
+      spawnRoom = findPath.findClosestSpawnToRoom(roomName).pos.roomName;
     }
+    const JobParameters: BuildConstructionSiteJobParameters = {
+      status: "fetchingResource",
+      room: roomName,
+      spawnRoom,
+      jobType: "buildConstructionSite"
+    };
+    const count: number = creepNumbers[JobParameters.jobType];
+    new BuildConstructionSiteJob(JobParameters, count);
   }
   private deleteConstructionSiteJob(roomName: string) {
+    let spawnRoom = roomName;
     if (Object.entries(Memory.rooms[roomName].monitoring.structures.spawns).length > 0) {
-      const JobParameters: BuildConstructionSiteJobParameters = {
-        status: "fetchingResource",
-        room: roomName,
-        spawnRoom: roomName,
-        jobType: "buildConstructionSite"
-      };
-      new BuildConstructionSiteJob(JobParameters, 0);
-    } else {
-      const JobParameters: BuildConstructionSiteJobParameters = {
-        status: "fetchingResource",
-        room: roomName,
-        spawnRoom: findPath.findClosestSpawnToRoom(roomName).pos.roomName,
-        jobType: "buildConstructionSite"
-      };
-      new BuildConstructionSiteJob(JobParameters, 0);
+      spawnRoom = findPath.findClosestSpawnToRoom(roomName).pos.roomName;
     }
+    const JobParameters: BuildConstructionSiteJobParameters = {
+      status: "fetchingResource",
+      room: roomName,
+      spawnRoom,
+      jobType: "buildConstructionSite"
+    };
+    new BuildConstructionSiteJob(JobParameters, 0);
   }
   private operateConstructionSites() {
     if (Memory.rooms) {

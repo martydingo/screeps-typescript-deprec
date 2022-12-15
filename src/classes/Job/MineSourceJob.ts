@@ -37,10 +37,10 @@ export class MineSourceJob {
         jobParameters: {
           uuid: UUID,
           status: "fetchingResource",
-          sourceId: this.JobParameters.sourceId,
           spawnRoom: this.JobParameters.spawnRoom,
           room: this.JobParameters.room,
-          jobType: "mineSource"
+          jobType: "mineSource",
+          sourceId: this.JobParameters.sourceId
         },
         index,
         room: this.JobParameters.room,

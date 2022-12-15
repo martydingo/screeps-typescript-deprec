@@ -1,11 +1,11 @@
 export {};
 declare global {
-  interface FeedTowerJobParameters {
+  interface FeedLinkJobParameters {
     uuid?: string;
     status: string;
     room: string;
     spawnRoom?: string;
-    jobType: "feedTower";
-    towerId: Id<StructureTower>;
+    jobType: "feedLink";
+    linkId: Id<StructureLink>;
   }
 }

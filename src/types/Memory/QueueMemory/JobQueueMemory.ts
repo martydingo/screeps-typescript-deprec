@@ -8,6 +8,7 @@ declare global {
         | MineSourceJobParameters
         | FeedSpawnJobParameters
         | FeedTowerJobParameters
+        | FeedLinkJobParameters
         | UpgradeControllerJobParameters
         | BuildConstructionSiteJobParameters
         | LootResourceJobParameters

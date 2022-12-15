@@ -35,11 +35,13 @@ export class RoomMonitor {
           },
           hostiles: {},
           sources: {},
+          spawnQueue: {},
           structures: {
             spawns: {},
             extensions: {},
             roads: {},
             towers: {},
+            links: {},
             other: {}
           }
         }
@@ -53,11 +55,13 @@ export class RoomMonitor {
         },
         hostiles: {},
         sources: {},
+        spawnQueue: {},
         structures: {
           spawns: {},
           extensions: {},
           roads: {},
           towers: {},
+          links: {},
           other: {}
         }
       };

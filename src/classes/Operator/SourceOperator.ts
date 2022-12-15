@@ -16,27 +16,19 @@ export class SourceOperator {
           const source: Source | null = Game.getObjectById(sourceId);
           if (source) {
             if (source.room.controller?.my || source.room.controller?.reservation?.username === myScreepsUsername) {
+              let spawnRoom = source.pos.roomName;
               if (Object.entries(source.room.memory.monitoring.structures.spawns).length > 0) {
-                const JobParameters: MineSourceJobParameters = {
-                  status: "fetchingResource",
-                  sourceId: source.id,
-                  spawnRoom: source.pos.roomName,
-                  room: source.pos.roomName,
-                  jobType: "mineSource"
-                };
-                const count: number = creepNumbers[JobParameters.jobType];
-                new MineSourceJob(JobParameters, count);
-              } else {
-                const JobParameters: MineSourceJobParameters = {
-                  status: "fetchingResource",
-                  sourceId: source.id,
-                  room: source.pos.roomName,
-                  spawnRoom: findPath.findClosestSpawnToRoom(source.pos.roomName).pos.roomName,
-                  jobType: "mineSource"
-                };
-                const count: number = creepNumbers[JobParameters.jobType];
-                new MineSourceJob(JobParameters, count);
+                spawnRoom = findPath.findClosestSpawnToRoom(source.pos.roomName).pos.roomName;
               }
+              const JobParameters: MineSourceJobParameters = {
+                status: "fetchingResource",
+                spawnRoom,
+                room: source.pos.roomName,
+                jobType: "mineSource",
+                sourceId: source.id
+              };
+              const count: number = creepNumbers[JobParameters.jobType];
+              new MineSourceJob(JobParameters, count);
             }
           }
         }

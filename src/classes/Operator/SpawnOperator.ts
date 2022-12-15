@@ -6,26 +6,36 @@ import { creepPriority } from "configuration/creeps/creepPriority";
 export class SpawnOperator {
   public constructor() {
     this.createSpawnFeederJobs();
-    this.operateSpawns();
+    this.generateRoomSpawnQueues();
+    Object.entries(Game.rooms).forEach(([roomName]) => {
+      this.operateSpawns(roomName);
+    });
   }
-  private operateSpawns() {
+  private generateRoomSpawnQueues() {
     const sortedSpawnQueue = Object.entries(Memory.queues.spawn).sort(([, spawnJobA], [, spawnJobB]) => {
       return (
         creepPriority(Game.rooms[spawnJobA.room])[spawnJobA.creepType] -
         creepPriority(Game.rooms[spawnJobB.room])[spawnJobB.creepType]
       );
     });
-    // Object.entries(Memory.rooms).forEach(([roomName, roomMonitoring]) => {
-    //   const roomSpawnQueue = Object.entries(Memory.queues.spawn).filter(
-    //     (SpawnQueueEntry) => SpawnQueueEntry[1].room === roomName
-    //   );
-    //   roomSpawnQueue.forEach(([roomSpawnQueueUUID, roomSpawnQueueEntry]) => {
-    //     Memory.monitoring[roomName].spawnQueue[roomSpawnQueueUUID] = roomSpawnQueueEntry;
-    //   });
-    // });
     if (sortedSpawnQueue.length > 0) {
-      let spawn: StructureSpawn | null = null;
-      const nextSpawnJob = sortedSpawnQueue[0][1];
+      Object.entries(sortedSpawnQueue).forEach(([, roomSpawnQueue]) => {
+        let roomSpawnQueueSpawnRoom = roomSpawnQueue[1].room;
+        if (roomSpawnQueue[1].spawnRoom) {
+          roomSpawnQueueSpawnRoom = roomSpawnQueue[1].spawnRoom;
+        }
+        if (!Memory.rooms[roomSpawnQueueSpawnRoom].monitoring.spawnQueue) {
+          Memory.rooms[roomSpawnQueueSpawnRoom].monitoring.spawnQueue = {};
+        }
+        Memory.rooms[roomSpawnQueueSpawnRoom].monitoring.spawnQueue[roomSpawnQueue[0]] = roomSpawnQueue[1];
+      });
+    }
+  }
+  private operateSpawns(roomName: string) {
+    const sortedRoomSpawnQueue = Object.entries(Memory.rooms[roomName].monitoring.spawnQueue);
+    let spawn: StructureSpawn | null = null;
+    if (sortedRoomSpawnQueue.length > 0) {
+      const nextSpawnJob = sortedRoomSpawnQueue[0][1];
       let spawnRoom = nextSpawnJob.room;
       if (nextSpawnJob.jobParameters.spawnRoom) {
         const spawnRoomString = nextSpawnJob.spawnRoom;
@@ -33,6 +43,7 @@ export class SpawnOperator {
           spawnRoom = spawnRoomString;
         }
       }
+
       const spawnObjects = Object.entries(Game.spawns).filter(
         ([, Spawn]) => Spawn.spawning === null && Spawn.pos.roomName === spawnRoom
       );
@@ -44,6 +55,10 @@ export class SpawnOperator {
           memory: nextSpawnJob.jobParameters
         });
         Log.Debug(`Spawn result for ${nextSpawnJob.creepType} in room ${spawnRoom}: ${spawnResult}`);
+        if (spawnResult === OK) {
+          delete Memory.rooms[spawnRoom].monitoring.spawnQueue[nextSpawnJob.uuid];
+          delete Memory.queues.spawn[nextSpawnJob.uuid];
+        }
       } else {
         const AllSpawnObjects = Object.entries(Game.spawns).filter(([, Spawn]) => Spawn.pos.roomName === spawnRoom);
         if (AllSpawnObjects.length < 1) {
@@ -64,7 +79,6 @@ export class SpawnOperator {
     Object.entries(Game.spawns).forEach(([, spawn]) => {
       const JobParameters: FeedSpawnJobParameters = {
         status: "fetchingResource",
-        spawnId: spawn.id,
         room: spawn.pos.roomName,
         jobType: "feedSpawn"
       };

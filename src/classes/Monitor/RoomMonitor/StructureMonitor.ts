@@ -1,5 +1,6 @@
 import { ControllerMonitor } from "./StructureMonitor/ControllerMonitor";
 import { ExtensionMonitor } from "./StructureMonitor/ExtensionMonitor";
+import { LinkMonitor } from "./StructureMonitor/LinkMonitor";
 import { RoadMonitor } from "./StructureMonitor/RoadMonitor";
 import { SpawnMonitor } from "./StructureMonitor/SpawnMonitor";
 import { StorageMonitor } from "./StructureMonitor/StorageMonitor";
@@ -23,6 +24,8 @@ export class StructureMonitor {
           new ExtensionMonitor(Structure);
         } else if (Structure.structureType === STRUCTURE_TOWER) {
           new TowerMonitor(Structure);
+        } else if (Structure.structureType === STRUCTURE_LINK) {
+          new LinkMonitor(Structure);
         } else if (Structure.structureType === STRUCTURE_STORAGE) {
           new StorageMonitor(Structure);
         } else if (Structure.structureType === STRUCTURE_CONTAINER) {

@@ -9,7 +9,7 @@ export class FeedSpawnJob {
       .filter(
         ([, jobMemory]) =>
           jobMemory.jobParameters.jobType === this.JobParameters.jobType &&
-          jobMemory.jobParameters.spawnId === this.JobParameters.spawnId
+          jobMemory.jobParameters.room === this.JobParameters.room
       )
       .forEach(([jobUUID, jobMemory]) => {
         if (jobMemory.index > count) {
@@ -17,12 +17,12 @@ export class FeedSpawnJob {
         }
       });
     if (count === 1) {
-      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.spawnId}-1`);
+      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.room}-1`);
       this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
-        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.spawnId}-${iterations}`);
+        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.room}-${iterations}`);
         this.createJob(UUID, iterations);
         iterations++;
       }
@@ -30,14 +30,11 @@ export class FeedSpawnJob {
   }
   private createJob(UUID: string, index: number) {
     if (!Memory.queues.jobs[UUID]) {
-      Log.Informational(
-        `Creating "FeedSpawnJob" for Spawn ID "${this.JobParameters.spawnId} with the UUID of ${UUID}"`
-      );
+      Log.Informational(`Creating "FeedSpawnJob" for Room "${this.JobParameters.room} with the UUID of ${UUID}"`);
       Memory.queues.jobs[UUID] = {
         jobParameters: {
           uuid: UUID,
           status: "fetchingResource",
-          spawnId: this.JobParameters.spawnId,
           room: this.JobParameters.room,
           jobType: "feedSpawn"
         },
@@ -50,9 +47,7 @@ export class FeedSpawnJob {
   }
   private deleteJob(UUID: string) {
     if (Memory.queues.jobs[UUID]) {
-      Log.Informational(
-        `Deleting "FeedSpawnJob" for Spawn ID "${this.JobParameters.spawnId} with the UUID of ${UUID}"`
-      );
+      Log.Informational(`Deleting "FeedSpawnJob" for Room "${this.JobParameters.room} with the UUID of ${UUID}"`);
       delete Memory.queues.jobs[UUID];
     }
   }

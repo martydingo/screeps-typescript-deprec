@@ -26,10 +26,20 @@ export class JobQueueOperator {
             spawnRoom: Memory.queues.jobs[jobUUID].jobParameters.spawnRoom,
             jobParameters: Memory.queues.jobs[jobUUID].jobParameters
           };
+        } else {
+          if (this.checkCreep(jobUUID)) {
+            delete Memory.queues.spawn[jobUUID];
+            delete Memory.rooms[spawnRoom].monitoring.spawnQueue[jobUUID];
+          } else {
+            if (Memory.queues.spawn[jobUUID].bodyParts !== desiredBodyParts) {
+              Memory.queues.spawn[jobUUID].bodyParts = desiredBodyParts;
+            }
+          }
         }
       } else {
         if (this.checkCreep(jobUUID)) {
           delete Memory.queues.spawn[jobUUID];
+          delete Memory.rooms[spawnRoom].monitoring.spawnQueue[jobUUID];
         } else {
           if (Memory.queues.spawn[jobUUID].bodyParts !== desiredBodyParts) {
             Memory.queues.spawn[jobUUID].bodyParts = desiredBodyParts;

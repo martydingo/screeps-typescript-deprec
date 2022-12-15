@@ -33,9 +33,9 @@ export class FeedTowerJob {
         jobParameters: {
           uuid: UUID,
           status: "fetchingResource",
-          towerId: this.JobParameters.towerId,
           room: this.JobParameters.room,
-          jobType: "feedTower"
+          jobType: "feedTower",
+          towerId: this.JobParameters.towerId
         },
         index,
         room: this.JobParameters.room,

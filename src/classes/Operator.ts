@@ -1,6 +1,7 @@
 import { ConstructionSiteOperator } from "./Operator/ConstructionSiteOperator";
 import { ControllerOperator } from "./Operator/ControllerOperator";
 import { CreepOperator } from "./Operator/CreepOperator";
+import { LinkOperator } from "./Operator/LinkOperator";
 import { QueueOperator } from "./Operator/QueueOperator";
 import { RoomOperator } from "./Operator/RoomOperator";
 import { SourceOperator } from "./Operator/SourceOperator";
@@ -12,14 +13,15 @@ export class Operator {
     this.runOperators();
   }
   private runOperators() {
+    this.runRoomOperator();
     this.runControllerOperator();
     this.runSourceOperator();
     this.runSpawnOperator();
     this.runTowerOperator();
     this.runQueueOperator();
     this.runCreepOperator();
+    this.runLinkOperator();
     this.runConstructionSiteOperator();
-    this.runRoomOperator();
   }
   private runControllerOperator() {
     new ControllerOperator();
@@ -38,6 +40,9 @@ export class Operator {
   }
   private runCreepOperator() {
     new CreepOperator();
+  }
+  private runLinkOperator() {
+    new LinkOperator();
   }
   private runConstructionSiteOperator() {
     new ConstructionSiteOperator();

@@ -1,9 +1,9 @@
 import { Log } from "classes/Log";
 import { base64 } from "common/utilities/base64";
 
-export class UpgradeControllerJob {
-  public JobParameters: UpgradeControllerJobParameters;
-  public constructor(JobParameters: UpgradeControllerJobParameters, count = 1) {
+export class FeedLinkJob {
+  public JobParameters: FeedLinkJobParameters;
+  public constructor(JobParameters: FeedLinkJobParameters, count = 1) {
     this.JobParameters = JobParameters;
     Object.entries(Memory.queues.jobs)
       .filter(([, jobMemory]) => jobMemory.jobParameters.jobType === this.JobParameters.jobType)
@@ -13,12 +13,12 @@ export class UpgradeControllerJob {
         }
       });
     if (count === 1) {
-      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.controllerId}-1`);
+      const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.linkId}-1`);
       this.createJob(UUID, 1);
     } else {
       let iterations = 1;
       while (iterations <= count) {
-        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.controllerId}-${iterations}`);
+        const UUID = base64.encode(`${this.JobParameters.jobType}-${this.JobParameters.linkId}-${iterations}`);
         this.createJob(UUID, iterations);
         iterations++;
       }
@@ -26,30 +26,25 @@ export class UpgradeControllerJob {
   }
   private createJob(UUID: string, index: number) {
     if (!Memory.queues.jobs[UUID]) {
-      Log.Informational(
-        `Creating "UpgradeControllerJob" for Controller ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
-      );
+      Log.Informational(`Creating "FeedLinkJob" for Link ID "${this.JobParameters.linkId} with the UUID of ${UUID}"`);
       Memory.queues.jobs[UUID] = {
         jobParameters: {
           uuid: UUID,
           status: "fetchingResource",
           room: this.JobParameters.room,
-          spawnRoom: this.JobParameters.spawnRoom,
-          jobType: "upgradeController",
-          controllerId: this.JobParameters.controllerId
+          jobType: "feedLink",
+          linkId: this.JobParameters.linkId
         },
         index,
         room: this.JobParameters.room,
-        jobType: "upgradeController",
+        jobType: "feedLink",
         timeAdded: Game.time
       };
     }
   }
   private deleteJob(UUID: string) {
     if (Memory.queues.jobs[UUID]) {
-      Log.Informational(
-        `Deleting "UpgradeControllerJob" for Controller ID: "${this.JobParameters.controllerId}" with the UUID "${UUID}"`
-      );
+      Log.Informational(`Deleting "FeedLinkJob" for Link ID "${this.JobParameters.linkId} with the UUID of ${UUID}"`);
       delete Memory.queues.jobs[UUID];
     }
   }

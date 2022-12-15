@@ -22,9 +22,9 @@ export class TowerOperator {
   private createTowerFeederJob(tower: StructureTower) {
     const jobParameters: FeedTowerJobParameters = {
       status: "fetchingResource",
-      towerId: tower.id,
       room: tower.room.name,
-      jobType: "feedTower"
+      jobType: "feedTower",
+      towerId: tower.id
     };
     new FeedTowerJob(jobParameters);
   }
@@ -52,11 +52,12 @@ export class TowerOperator {
         ([, cachedRoadA], [, cachedRoadB]) => cachedRoadA.structure.hits - cachedRoadB.structure.hits
       );
       if (roadToRepairObject[0]) {
-        const roadToRepairIdUnknown = roadToRepairObject[0][0] as unknown;
-        const roadToRepairId = roadToRepairIdUnknown as Id<StructureRoad>;
+        const roadToRepairId = roadToRepairObject[0][0] as Id<StructureRoad>;
         const roadToRepair = Game.getObjectById(roadToRepairId);
         if (roadToRepair) {
           tower.repair(roadToRepair);
+        } else {
+          delete Memory.rooms[tower.pos.roomName].monitoring.structures.roads[roadToRepairId];
         }
       }
     }

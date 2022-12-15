@@ -8,5 +8,6 @@ declare global {
     hostiles: HostileMonitorMemory;
     sources: SourceMonitorMemory;
     structures: StructureMonitorMemory;
+    spawnQueue: SpawnQueueMemory;
   }
 }

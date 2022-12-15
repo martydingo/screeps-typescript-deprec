@@ -7,6 +7,7 @@ declare global {
       | "mineSource"
       | "feedSpawn"
       | "feedTower"
+      | "feedLink"
       | "upgradeController"
       | "buildConstructionSite"
       | "lootResource"
@@ -16,6 +17,7 @@ declare global {
     sourceId?: Id<Source>;
     towerId?: Id<StructureTower>;
     controllerId?: Id<StructureController>;
+    linkId?: Id<StructureLink>;
     room: string;
   }
 }
