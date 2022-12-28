@@ -2,6 +2,32 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+class GameMonitor {
+    constructor() {
+        this.monitorGame();
+    }
+    monitorGame() {
+        Memory.monitoring = {
+            cpu: {
+                used: Game.cpu.getUsed(),
+                bucket: Game.cpu.bucket
+            },
+            memory: this.monitorHeapSize(),
+            pixels: Game.resources.pixel || 0
+        };
+    }
+    monitorHeapSize() {
+        let curHeapSize = 0;
+        if (Game.cpu.getHeapStatistics) {
+            const heapStats = Game.cpu.getHeapStatistics();
+            if (heapStats) {
+                curHeapSize = heapStats.used_heap_size;
+            }
+        }
+        return curHeapSize;
+    }
+}
+
 class Log {
     static Emergency(msg) {
         console.log(Log.LogColor.Emergency + msg);
@@ -38,38 +64,6 @@ Log.LogColor = {
     Informational: '<font color="#aaaaaa">',
     Debug: '<font color="#666666">'
 };
-
-class GameMonitor {
-    constructor() {
-        this.monitorGame();
-    }
-    monitorGame() {
-        let curHeapSize = 0;
-        if (Game.cpu.getHeapStatistics) {
-            const heapStats = Game.cpu.getHeapStatistics();
-            if (heapStats) {
-                curHeapSize = heapStats.used_heap_size;
-            }
-        }
-        Memory.monitoring = {
-            cpu: {
-                used: Game.cpu.getUsed(),
-                bucket: Game.cpu.bucket
-            },
-            memory: curHeapSize,
-            pixels: Game.resources.pixel || 0
-        };
-    }
-}
-
-class Monitor {
-    constructor() {
-        this.initializeMonitors();
-    }
-    initializeMonitors() {
-        new GameMonitor();
-    }
-}
 
 /* eslint-disable no-bitwise */
 // Juszczak/base64-typescript-class.ts
@@ -270,6 +264,7 @@ const findPath = {
 
 const creepNumbers = {
     mineSource: 1,
+    workTerminal: 1,
     feedSpawn: 2,
     feedTower: 1,
     feedLink: 1,
@@ -278,7 +273,8 @@ const creepNumbers = {
     lootResource: 1,
     scoutRoom: 1,
     claimRoom: 1,
-    reserveRoom: 1
+    reserveRoom: 1,
+    transportResource: 1
 };
 
 class ConstructionSiteOperator {
@@ -1030,6 +1026,19 @@ class CreepOperator {
     }
 }
 
+class GameOperator {
+    constructor() {
+        this.generatePixel();
+    }
+    generatePixel() {
+        if (Game.cpu) {
+            if (Game.cpu.generatePixel && Game.cpu.bucket === 10000) {
+                Game.cpu.generatePixel();
+            }
+        }
+    }
+}
+
 class FeedLinkJob {
     constructor(JobParameters, count = 1) {
         this.JobParameters = JobParameters;
@@ -1080,9 +1089,9 @@ class FeedLinkJob {
 }
 
 const linkConfig = {
-    W56N12: {
-        "6397f1bd30238608dae79135": "tx",
-        "639864121a5e460386cf8d54": "rx"
+    W8N3: {
+        "63ab0a6e26553d03dcda0a60": "tx",
+        "63ab0b731b113d034be84db0": "rx"
     }
 };
 
@@ -1158,7 +1167,9 @@ const creepBodyParts = {
     1: {
         // Second level is the jobType.
         mineSource: [WORK, WORK, MOVE, CARRY],
+        workTerminal: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
         feedSpawn: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+        transportResource: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
         feedTower: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
         feedLink: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
         lootResource: [CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
@@ -1171,7 +1182,9 @@ const creepBodyParts = {
     2: {
         // Second level is the jobType.
         mineSource: [WORK, WORK, WORK, WORK, MOVE, MOVE, CARRY],
+        workTerminal: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
         feedSpawn: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+        transportResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
         feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
         feedLink: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
         lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
@@ -1184,7 +1197,43 @@ const creepBodyParts = {
     3: {
         // Second level is the jobType.
         mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, CARRY, CARRY],
+        workTerminal: [
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE
+        ],
         feedSpawn: [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+        transportResource: [
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE
+        ],
         feedTower: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
         feedLink: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
         lootResource: [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
@@ -1197,7 +1246,63 @@ const creepBodyParts = {
     4: {
         // Second level is the jobType.
         mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
+        workTerminal: [
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE
+        ],
         feedSpawn: [
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE
+        ],
+        transportResource: [
             CARRY,
             CARRY,
             CARRY,
@@ -1281,7 +1386,83 @@ const creepBodyParts = {
     5: {
         // Second level is the jobType.
         mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
+        workTerminal: [
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY
+        ],
         feedSpawn: [
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY
+        ],
+        transportResource: [
             MOVE,
             MOVE,
             MOVE,
@@ -1393,7 +1574,103 @@ const creepBodyParts = {
     6: {
         // Second level is the jobType.
         mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
+        workTerminal: [
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY
+        ],
         feedSpawn: [
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY
+        ],
+        transportResource: [
             MOVE,
             MOVE,
             MOVE,
@@ -1529,7 +1806,111 @@ const creepBodyParts = {
     7: {
         // Second level is the jobType.
         mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
+        workTerminal: [
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY
+        ],
         feedSpawn: [
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY
+        ],
+        transportResource: [
             MOVE,
             MOVE,
             MOVE,
@@ -1695,7 +2076,111 @@ const creepBodyParts = {
     8: {
         // Second level is the jobType.
         mineSource: [WORK, WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY],
+        workTerminal: [
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY
+        ],
         feedSpawn: [
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            MOVE,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY,
+            CARRY
+        ],
+        transportResource: [
             MOVE,
             MOVE,
             MOVE,
@@ -2765,9 +3250,9 @@ class ScoutRoomJob {
     }
 }
 
-const roomsToClaim = [""];
+const roomsToClaim = [];
 
-const roomsToMine = [""];
+const roomsToMine = ["W8N2"];
 
 class ReserveRoomJob {
     constructor(JobParameters, count = 1) {
@@ -3031,17 +3516,21 @@ function creepPriority(room) {
         feedTower: 3,
         upgradeController: 4,
         scoutRoom: 5,
-        reserveRoom: 6,
-        claimRoom: 7,
-        buildConstructionSite: 8,
-        feedLink: 9
+        transportResource: 6,
+        workTerminal: 7,
+        lootResource: 8,
+        feedLink: 9,
+        reserveRoom: 10,
+        claimRoom: 11,
+        buildConstructionSite: 12
     };
     if (room) {
         let storageContainsEnergy = false;
         let roomContainsDroppedEnergy = false;
+        let feederCreepAlive = false;
         if (room.memory.monitoring.structures.storage) {
             if (room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY]) {
-                if (room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY].resourceAmount > 0) {
+                if (room.memory.monitoring.structures.storage.resources[RESOURCE_ENERGY].resourceAmount >= 300) {
                     storageContainsEnergy = true;
                 }
             }
@@ -3049,7 +3538,10 @@ function creepPriority(room) {
         if (Object.entries(room.memory.monitoring.droppedResources).length > 0) {
             roomContainsDroppedEnergy = true;
         }
-        if (roomContainsDroppedEnergy === true || storageContainsEnergy === true) {
+        if (Object.entries(Memory.creeps).filter(([, creepMemory]) => creepMemory.jobType === "feedSpawn").length > 0) {
+            feederCreepAlive = true;
+        }
+        if (roomContainsDroppedEnergy || storageContainsEnergy || feederCreepAlive) {
             priority = {
                 feedSpawn: priority.mineSource,
                 mineSource: priority.feedSpawn,
@@ -3059,7 +3551,10 @@ function creepPriority(room) {
                 reserveRoom: priority.reserveRoom,
                 claimRoom: priority.claimRoom,
                 buildConstructionSite: priority.buildConstructionSite,
-                feedLink: priority.feedLink
+                feedLink: priority.feedLink,
+                workTerminal: priority.workTerminal,
+                lootResource: priority.lootResource,
+                transportResource: priority.transportResource
             };
         }
     }
@@ -3309,6 +3804,7 @@ class Operator {
         this.runCreepOperator();
         this.runLinkOperator();
         this.runConstructionSiteOperator();
+        this.runGameOperator();
     }
     runControllerOperator() {
         new ControllerOperator();
@@ -3336,6 +3832,9 @@ class Operator {
     }
     runRoomOperator() {
         new RoomOperator();
+    }
+    runGameOperator() {
+        new GameOperator();
     }
 }
 
@@ -3402,9 +3901,9 @@ const garbageCollect = {
 const loop = () => {
     Log.Informational(`Current game tick is ${Game.time}`);
     garbageCollect.creeps();
-    new Monitor();
     new Queue();
     new Operator();
+    new GameMonitor();
     // resetQueues.resetAllQueues();
 };
 
