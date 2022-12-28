@@ -1095,7 +1095,6 @@ class LinkOperator {
         const linkRoom = link.pos.roomName;
         const linkId = link.id;
         const roomLinkConfig = linkConfig[linkRoom];
-        console.log(roomLinkConfig[linkId]);
         if (roomLinkConfig) {
             if (roomLinkConfig[linkId]) {
                 Memory.rooms[linkRoom].monitoring.structures.links[linkId].mode = roomLinkConfig[linkId];
@@ -3400,7 +3399,6 @@ const garbageCollect = {
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
-// export const loop = errorMapper.wrapLoop(() => {
 const loop = () => {
     Log.Informational(`Current game tick is ${Game.time}`);
     garbageCollect.creeps();
@@ -3409,7 +3407,6 @@ const loop = () => {
     new Operator();
     // resetQueues.resetAllQueues();
 };
-// });
 
 exports.loop = loop;
 //# sourceMappingURL=main.js.map

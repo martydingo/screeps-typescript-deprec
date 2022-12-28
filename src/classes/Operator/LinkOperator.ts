@@ -13,7 +13,6 @@ export class LinkOperator {
     const linkRoom = link.pos.roomName;
     const linkId = link.id;
     const roomLinkConfig = linkConfig[linkRoom];
-    console.log(roomLinkConfig[linkId]);
     if (roomLinkConfig) {
       if (roomLinkConfig[linkId]) {
         Memory.rooms[linkRoom].monitoring.structures.links[linkId].mode = roomLinkConfig[linkId];
