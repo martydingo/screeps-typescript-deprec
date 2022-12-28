@@ -3033,8 +3033,9 @@ function creepPriority(room) {
         scoutRoom: 5,
         reserveRoom: 6,
         claimRoom: 7,
-        buildConstructionSite: 8,
-        feedLink: 9
+        feedLink: 8,
+        buildConstructionSite: 9,
+        lootResource: 10
     };
     if (room) {
         let storageContainsEnergy = false;
@@ -3058,8 +3059,9 @@ function creepPriority(room) {
                 scoutRoom: priority.scoutRoom,
                 reserveRoom: priority.reserveRoom,
                 claimRoom: priority.claimRoom,
+                feedLink: priority.feedLink,
                 buildConstructionSite: priority.buildConstructionSite,
-                feedLink: priority.feedLink
+                lootResource: priority.lootResource
             };
         }
     }
@@ -3409,4 +3411,3 @@ const loop = () => {
 };
 
 exports.loop = loop;
-//# sourceMappingURL=main.js.map

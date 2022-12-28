@@ -2,7 +2,6 @@ import { Log } from "classes/Log";
 import { Monitor } from "classes/Monitor";
 import { Operator } from "classes/Operator";
 import { Queue } from "classes/Queue";
-import { errorMapper } from "common/utilities/errorMapper";
 import { garbageCollect } from "common/utilities/garbageCollect";
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
