@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 class Log {
     static Emergency(msg) {
         console.log(Log.LogColor.Emergency + msg);
@@ -1080,7 +1082,7 @@ class FeedLinkJob {
 const linkConfig = {
     W56N12: {
         "6397f1bd30238608dae79135": "tx",
-        "639b23129ab55f8634547d74": "rx"
+        "639864121a5e460386cf8d54": "rx"
     }
 };
 
@@ -3410,3 +3412,4 @@ const loop = () => {
 // });
 
 exports.loop = loop;
+//# sourceMappingURL=main.js.map
